@@ -7,7 +7,7 @@ Installation consists of 3 basic steps:
 2. Subscribing to the VoIP provider, and either porting your existing phone number or purchasing a new one
 3. Configuring your home SIP clients: ATAs and softphones
 
-# Cloud PBX
+# Cloud PBX Server
 We’ll be installing FreePBX on a vanilla version of Debian 12.  The server needs at least 1GB of RAM to work OK, but otherwise 1 CPU and 20GB of storage should be fine.  Although I’m a big fan of AWS LightSail, I recently found out about [Vultr](https://my.vultr.com/), a cloud provider recommended by [Crosstalk solutions](https://www.crosstalksolutions.com/recommendations/).  
 
 Before spinning up the server, follow the instructions for creating [SSH keys](https://docs.vultr.com/how-do-i-generate-ssh-keys) and [firewall rules](https://docs.vultr.com/vultr-firewall).  Here are the rules for the firewall (for now we’re going to stick with IPv4, since the various IPv6 SIP implementations still seem somewhat buggy):  
