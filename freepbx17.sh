@@ -129,7 +129,7 @@ cat - <<EOF >/etc/iptables/rules.v4
 -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 # SSH, HTTP & SIP CLIENTS
--A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
+# -A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
 # FLOWROUTE
 -A INPUT -s 34.226.36.32/28 -j ACCEPT
 # Private (LAN) IP Addresses
