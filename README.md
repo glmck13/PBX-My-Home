@@ -1,5 +1,5 @@
 # PBX-My-Home
-Don't get rid of your house phone... Supercharge it with a PBX!  
+[![Watch the video](https://pbxmyhome.net/wp-content/uploads/2024/02/pbxmyhome.png)](https://pbxmyhome.net/wp-content/uploads/2024/02/pbxnew.mp4)
 
 # Installation
 Installation consists of 3 basic steps:
