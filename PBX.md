@@ -1,7 +1,7 @@
 ## Subscribe to cloud provider
-Although I’m a big fan of AWS LightSail, I recently found out about Vultr, a cloud provider recommended by [Crosstalk Solutions](https://www.crosstalksolutions.com/recommendations/).  You can sign up for a [Vultr account here](https://my.vultr.com).
+Although I’m a big fan of AWS LightSail, I recently found out about Vultr, a cloud provider recommended by [Crosstalk Solutions](https://www.crosstalksolutions.com/recommendations/).  You can sign up for a [Vultr account here](https://www.vultr.com/register/).
 
-## Spin up cloud server
+## Spin up server
 We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https://www.freepbx.org/) on a vanilla version of Debian 12.  Before spinning up the server, follow the instructions for creating [SSH keys](https://docs.vultr.com/how-do-i-generate-ssh-keys) and [firewall rules](https://docs.vultr.com/vultr-firewall).  Here are the rules for the firewall (for now we’re going to stick with IPv4, since the various IPv6 SIP implementations still seem somewhat buggy):  
 + accept	SSH	22	0.0.0.0/0	
 + accept	TCP (HTTP)	80	0.0.0.0/0	
