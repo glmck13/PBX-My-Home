@@ -5,5 +5,5 @@
 # Installation
 Installation consists of 3 steps:
 1. [Port your existing phone number, or purchase a new one](VoIP.md)
-2. [Set up the cloud PBX](PBX.md): Debian 12, Asterisk 20, FreePBX 17
-4. [Configure your home SIP clients](Clients.md): ATAs and softphones
+2. [Set up the cloud PBX](PBX.md)
+3. [Configure your home SIP clients](Clients.md)
