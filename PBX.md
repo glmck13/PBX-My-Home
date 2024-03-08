@@ -110,15 +110,3 @@ Settings &rarr; Asterisk SIP Settings &rarr; General SIP Settings
 Click “Submit”
 
 You can now click "Apply Config" to activate these changes in Asterisk.
-
-
-
-
-
-
-
-
-
-
-
-
