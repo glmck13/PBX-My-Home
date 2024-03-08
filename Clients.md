@@ -18,7 +18,7 @@ Click “Apply”
 
 Click “Apply”
 
-Click “Reboot”
+Click “Reboot”.  After the ATA comes back on line dial *60# on your phone handset. If all goes well you’ll be connected to the "current time" application on your FreePBX server!
 
 ## Configure softphone on Windows/Linux
 I’ve had excellent success using the [Linphone SIP client from Belledonne Communications](https://www.linphone.org/).  It supports both audio and video calling, and has lots of features, but we’ll just configure the basics for now.  
@@ -31,4 +31,4 @@ After installing the software on your desktop, access the “Account Assistant�
 
 Click “USE”.  
 
-Go back to the Linphone home screen, enter *60 in the “Search contact, start a call or a chat…” field, and hit enter.  If all goes well you’ll be connected to the time application on your FreePBX server!
+Go back to the Linphone home screen, enter *60 in the “Search contact, start a call or a chat…” field, and hit enter.  If all goes well you’ll be connected to the "current time" application on your FreePBX server!
