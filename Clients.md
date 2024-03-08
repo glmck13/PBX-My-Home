@@ -1,5 +1,5 @@
 ## Configure ATA
-I’ve had good success using the [Grandstream HT801 ATA](https://www.amazon.com//dp/B06XW1BQHC) (available for about $40 on Amazon) to connect my cordless phone system to my PBX.  The device has extensive set of configurable parameters, but the settings below are the minimal set of changes you need to apply to the device following a factory reset to establish a SIP connection to your PBX.  
+I’ve had good success using the [Grandstream HT801 ATA](https://www.amazon.com//dp/B06XW1BQHC) (available for about $40 on Amazon) to connect my cordless phone system to my PBX.  The device has an extensive set of configurable parameters, but the settings below are the minimal set of changes you need to apply to the device following a factory reset to establish a SIP connection to your PBX.  
 
 You’ll need the local LAN address of the ATA to configure it though a web browser.  The easiest way to discover the address is to first connect your analog phone to the ATA, then dial *** followed by menu option 02.  The device will audibly report its IP address so you can use that to http into its web interface.
 
