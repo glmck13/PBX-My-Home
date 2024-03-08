@@ -9,7 +9,7 @@ You’ll need the local LAN address of the ATA to configure it though a web brow
   + SIP User ID: ***Enter the extension number you configured on the PBX***
   + Authenticate ID: ***Enter the extension number you configured on the PBX***
   + Authenticate Password: ***Enter the Secret you assigned to the extension***
-  + SIP REGISTER Contact Header Uses: ***WAN Address***
+  + SIP REGISTER Contact Header Uses: ***WAN Address***  
 
 Click “Apply”  
 
