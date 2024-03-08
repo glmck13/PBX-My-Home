@@ -32,4 +32,86 @@ Before running the script, you first need to update the file with the IP address
 ```
 Replace “XXX…” with your IP address of your home broadband router, remove the comment character at the front, save the file, then make it executable.  Launch the script.
 
-You’ll run the script twice.  The first time around the script applies Debian updates and installs a collection of prerequisite packages needed by Asterisk and FreePBX.  After this completes it asks if you want to reboot.  Respond (y)es on the first run, wait for the server to come back online, ssh back in, and run freepbx17.sh a second time.  After checking all the prerequisites have been installed, the script asks if you want to reboot again.  Respond (n)o this time, so that the script proceeds with downloading compiling, and installing Asterisk, then downloading and installing FreePBX.  When asked to select modules during the Asterisk build, just accept the defaults.  After Asterisk and FreePBX are up and running, the script configures the iptables firewall in the server.  When asked if you want to save the current IPv4/IPv6 firewall rules, just respond no.  That’s it!  When you get a command prompt, reboot the server, and ssh back in after it comes back online (this confirms you entered your correct IP address in the firewall!)
+You’ll run the script twice.  The first time around the script applies Debian updates and installs a collection of prerequisite packages needed by Asterisk and FreePBX.  After this completes it asks if you want to reboot.  Respond (y)es on the first run, wait for the server to come back online, ssh back in, and run freepbx17.sh a second time.  After checking all the prerequisites have been installed, the script asks if you want to reboot again.  Respond (n)o this time, so that the script proceeds with downloading compiling, and installing Asterisk, then downloading and installing FreePBX.  When asked to select modules during the Asterisk build, just accept the defaults.  After Asterisk and FreePBX are up and running, the script configures the iptables firewall in the server.  When asked if you want to save the current IPv4/IPv6 firewall rules, just respond no.  That’s it!  When you get a command prompt, reboot the server, and ssh back in after it comes back online (this confirms you entered your correct IP address in the firewall!)  
+
+## Configure FreePBX
+Access the FreePBX console from your browser, complete the initial startup screens, then proceed with the configuration steps below. Hold off clicking on the red “Apply Config” button at the top until you’re finished.
+
+### Add Trunk
+Connectivity &rarr; Trunks &rarr; Add Trunk &rarr; Add SIP (chan_pjsip) Trunk
+
++ General tab:
+  + Trunk Name: ***FLOWROUTE***
+  + Outbound CallerID: ***Your 10-digit VoIP number without the leading country code***
+  + Maximum Channels: ***Leave blank; allows for multiple calls using the same VoIP line***
+
++ Dialed Number Manipulation Rules tab:
+  + prepend: ***Tech Prefix for your DID in Flowroute, followed by a single asterisk, and a ‘1’ for the US country code, e.g. 10668144\*1  You can find the Tech Prefix by looking under Interconnection &rarr; IP Authentication in your Flowroute account.***
+  + prefix: ***‘9’ to get an outside line***
+  + match pattern: ***XXXXXXXXXX for 10 digit calling***
+
++ pjsip Settings tab:
+  + Username: ***Tech Prefix for your DID in Flowroute***
+  + Auth username: ***Tech Prefix for your DID in Flowroute***
+  + Secret: ***Password specified in Flowroute under Interconnection &rarr; Registration***
+  + Authentication: ***Outbound***
+  + Registration: ***Send***
+  + SIP Server: ***“Point of Presence FQDN” for your DID and chosen “Edge Strategy” as defined in Flowroute under Interconnection &rarr; Registration, e.g. us-east-va.sip.flowroute.com***
+  + SIP Server Port: ***5060***
+
+Click “Submit”
+
+### Add Outbound Route
+Connectivity &rarr; Outbound Routes &rarr; Add Outbound Route
+
++ Route Settings tab:
+  + Route Name: ***OutboundFLOWROUTE***
+  + Route CID: ***Your 10-digit VoIP number without the leading country code***
+  + Trunk Sequence for Matched Routes: ***Select FLOWROUTE trunk***
+
++ Dial Patterns tab:
+  + prepend: ***Tech Prefix for your DID in Flowroute, followed by a single asterisk, and a ‘1’ for the US country code, e.g. 10668144\*1***
+  + prefix: ***‘9’ to get an outside line***
+  + match pattern: ***XXXXXXXXXX for 10 digit calling***
+
+Click “Submit”
+
+### Add Inbound Route
+Connectivity &rarr; Inbound Routes &rarr; Add Inbound Route
+
++ General tab:
+  + DID Number: ***_9XXXXXXXXXX***
+  + Set Destination: ***Select FLOWROUTE trunk***
+
+Click “Submit”
+
+### Add Extension
+Connectivity &rarr; Extensions &rarr; Add Extension &rarr; Add New SIP [chan_pjsip] Extension
++ General tab:
+  + User Extension: ***Assign your own 3-digit/4-digit extension***
+  + Display Name: ***Same as the extension number***
+  + Secret: ***Assign a password for the extension that will be used by your ATA/SIP client to login***
+
+Click “Submit”
+
+### Add Inbound Route
+Connectivity &rarr; Inbound Routes &rarr; Add Inbound Route
+
++ General tab:
+  + Set Destination: ***Select extension 1000 to route all incoming calls from your VoIP number to this extension by default***
+
+Click “Submit”  
+
+You can now click "Apply Config" to activate these changes in Asterisk.
+
+
+
+
+
+
+
+
+
+
+
+
