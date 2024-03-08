@@ -100,7 +100,14 @@ Connectivity &rarr; Inbound Routes &rarr; Add Inbound Route
 + General tab:
   + Set Destination: ***Select extension 1000 to route all incoming calls from your VoIP number to this extension by default***
 
-Click “Submit”  
+Click “Submit”
+
+### Enable video calls
+Settings &rarr; Asterisk SIP Settings &rarr; General SIP Settings
++ Video Codecs
+  + Video Support: ***Enabled***
+
+Click “Submit”
 
 You can now click "Apply Config" to activate these changes in Asterisk.
 
