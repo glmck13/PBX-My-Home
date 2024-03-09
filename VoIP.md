@@ -1,5 +1,5 @@
 ## Subscribe to VoIP provider
-Crosstalk Solutions recommends [VoIP.ms]( https://voip.ms/residential), but I’ve had good success so far with Flowroute, and their pricing is even less.  You can sign up for a [Flowroute account here](https://manage.flowroute.com/signup/).  
+[Crosstalk Solutions](https://www.crosstalksolutions.com/recommendations/) recommends [VoIP.ms]( https://voip.ms/residential), but I’ve had good success so far with Flowroute, and their pricing is even less.  You can sign up for a [Flowroute account here](https://manage.flowroute.com/signup/).  
 
 Depending on your circumstances, you either need to: a) purchase a phone number, a.k.a. a "DID", or b) port your current number over to the VoIP provider. 
 
