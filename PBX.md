@@ -8,7 +8,6 @@ We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https:
 + accept	TCP	3478	0.0.0.0/0	
 + accept	UDP	3478	0.0.0.0/0	
 + accept	UDP	5060	0.0.0.0/0	
-+ accept	TCP	5349	0.0.0.0/0	
 + accept	UDP	10000 – 20000	0.0.0.0/0	
 + drop	any	0 - 65535	0.0.0.0/0	(default)
 
