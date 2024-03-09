@@ -132,6 +132,7 @@ cat - <<EOF >/etc/iptables/rules.v4
 # -A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
 # FLOWROUTE
 -A INPUT -s 34.226.36.32/28 -j ACCEPT
+-A INPUT -s 34.210.91.112/28 -j ACCEPT
 # Private (LAN) IP Addresses
 -A INPUT -s 10.0.0.0/8 -j ACCEPT
 -A INPUT -s 127.0.0.0/8 -j ACCEPT
