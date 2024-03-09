@@ -32,7 +32,7 @@ Replace “XXX…” with the IP address of your router, remove the comment char
 You’ll run the script twice.  The first time through the script applies Debian updates and installs a collection of prerequisite packages needed by Asterisk and FreePBX. Respond no when asked if you want to save the current IPv4/IPv6 firewall rules.  After installing this first set of packages, the script prompts you to reboot.  Respond (y)es on the first run, wait for the server to come back online, ssh back in, and run freepbx17.sh a second time.  When prompted to reboot, respond (n)o this time, and the script will download, compile, and install Asterisk, then download and install FreePBX.  When asked to select modules during the Asterisk build, just accept the defaults.  When the script completes, reboot the server then ssh back in to confirm your firewall rules are correct.  You can now proceed to set up FreePBX.  
 
 ## Configure FreePBX
-Access the FreePBX console from your browser, complete the initial startup screens, then proceed with the configuration steps below. Hold off clicking on the red “Apply Config” button at the top until you’re finished.
+Access the FreePBX console from your browser using the IP address of the server, complete the initial startup screens, then proceed with the configuration steps below. Hold off clicking the red “Apply Config” button at the top until you’re finished submitting all the changes.
 
 ### Add Trunk
 Connectivity &rarr; Trunks &rarr; Add Trunk &rarr; Add SIP (chan_pjsip) Trunk
