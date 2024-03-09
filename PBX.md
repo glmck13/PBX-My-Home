@@ -23,7 +23,7 @@ The server needs at least 1GB of RAM to work OK, but otherwise 1 CPU and 20GB of
 Select the SSH keys and Firewall Group you created earlier, enter a hostname for the server (you can change this later), give the instance a label, and click Deploy Now.
 
 ## Install Asterisk and FreePBX
-Once your server is running, download a copy of freepbx17.sh from this repository, and scp it to the root account on your server.  The script installs Asterisk 20 and FreePBX 17 on the system .  It’s based on the [instructions posted on Sangoma’s website](https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682545/How+to+Install+FreePBX+17+on+Debian+12+with+Asterisk+20).  
+Once your server is running, download a copy of freepbx17.sh from this repository, and scp it to the root account on your server.  The script installs Asterisk 20 and FreePBX 17 on the system.  It’s based on the [instructions posted on Sangoma’s website](https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682545/How+to+Install+FreePBX+17+on+Debian+12+with+Asterisk+20).  
 
 Before running the script, you first need to update the file with the IP address of your broadband router.  Edit the file and look for the line at the end that reads:
 ```
