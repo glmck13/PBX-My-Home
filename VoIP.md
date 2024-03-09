@@ -15,6 +15,6 @@ After you submit your order, you’ll receive updates along the way about how th
 You can only complete this step after creating your PBX virtual server, since you'll need its IPv4 address.  After your PBX is up and running, [follow this how-to](https://support.flowroute.com/278843-Create-an-Inbound-Route-with-your-Preferred-PoP) to defile a route. Here are the values to enter:
 + Route Type: **URI**
 + Route: **sip:FLOWROUTE@PBX_address**, where **PBX_address** is the IPv4 address assigned to your server
-+ Edge Strategy: **<pick one close to home!>**, e.g. ***US-East-VA***
++ Edge Strategy: **pick one close to home! e.g. US-East-VA***
 
 Once the route is created, return to the DID menu, check the box next to your phone number, select “Set Route” from “Choose a DID Action”, and pick the route you just entered.  And while your on the page, click the E911 menu option at the top and fill out the physical address you want to assign to your phone.
