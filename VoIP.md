@@ -12,9 +12,9 @@ If you already have a home phone, you’ll need to port your number from your cu
 After you submit your order, you’ll receive updates along the way about how things are progressing.  If all goes well, and your order is approved, you’ll receive a date and time when your phone server will be cut over.  You will want to make sure your PBX set up and ready to go before then!
 
 ## Create route from Flowroute to your PBX
-You’ll need the IPv4 address assigned to your PBX to complete this step. [Follow this how-to](https://support.flowroute.com/278843-Create-an-Inbound-Route-with-your-Preferred-PoP).  Enter:
+You can only complete this step after creating your PBX virtual server, since you'll need its IPv4 address.  After your PBX is up and running, [follow this how-to](https://support.flowroute.com/278843-Create-an-Inbound-Route-with-your-Preferred-PoP) to defile a route. Here are the values to enter:
 + Route Type: **URI**
-+ Route: **sip:FLOWROUTE@&lt;PBX address&gt;**, where **&lt;PBX address&gt;** is the IPv4 address assigned to your cloud server
-+ Edge Strategy: **<pick one close to home!>**
++ Route: **sip:FLOWROUTE@PBX_address**, where **PBX_address** is the IPv4 address assigned to your server
++ Edge Strategy: **<pick one close to home!>**, e.g. ***US-East-VA***
 
-Once the route is created, return to the DID menu, check the box next to your phone number, select “Set Route” from “Choose a DID Action”, and pick the route you just entered.  And while your on the page click the E911 menu option at the top and fill out the physical address you want to assign to your phone.
+Once the route is created, return to the DID menu, check the box next to your phone number, select “Set Route” from “Choose a DID Action”, and pick the route you just entered.  And while your on the page, click the E911 menu option at the top and fill out the physical address you want to assign to your phone.
