@@ -85,7 +85,7 @@ Click “Submit”
 ### Add Extension
 Connectivity &rarr; Extensions &rarr; Add Extension &rarr; Add New SIP [chan_pjsip] Extension
 + General tab:
-  + User Extension: ***Assign your own 3-digit/4-digit extension***
+  + User Extension: ***Assign your own 3-digit/4-digit extension, e.g 1000***
   + Display Name: ***Same as the extension number***
   + Secret: ***Assign a password for the extension that will be used by your ATA/SIP client to login***
 
