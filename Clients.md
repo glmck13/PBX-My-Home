@@ -31,4 +31,4 @@ After installing the software on your desktop, access the “Account Assistant�
 
 Click “USE”.  
 
-Go back to the Linphone home screen, enter *60 in the “Search contact, start a call or a chat…” field, and hit enter.  If all goes well you’ll be connected to the "current time" application on your FreePBX server!
+Go back to the Linphone home screen, enter *60 in the search field, and hit enter.  If all goes well you’ll be connected to the "current time" application on your FreePBX server!
