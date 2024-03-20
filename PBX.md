@@ -40,6 +40,7 @@ Connectivity &rarr; Trunks &rarr; Add Trunk &rarr; Add SIP (chan_pjsip) Trunk
 + General tab:
   + Trunk Name: ***FLOWROUTE***
   + Outbound CallerID: ***Your 10-digit VoIP number without the leading country code***
+  + CID Oprtions: ***Force Trunk CID***
   + Maximum Channels: ***Leave blank; allows for multiple calls using the same VoIP line***
 
 + Dialed Number Manipulation Rules tab:
