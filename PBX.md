@@ -63,7 +63,7 @@ Click “Submit”
 Connectivity &rarr; Outbound Routes &rarr; Add Outbound Route
 
 + Route Settings tab:
-  + Route Name: ***OutboundFLOWROUTE***
+  + Route Name: ***FLOWROUTE***
   + Route CID: ***Your 10-digit VoIP number without the leading country code***
   + Trunk Sequence for Matched Routes: ***Select FLOWROUTE trunk***
 
