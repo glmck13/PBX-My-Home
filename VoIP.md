@@ -11,8 +11,10 @@ If you already have a home phone, you’ll need to port your number from your cu
 
 After you submit your order, you’ll receive updates along the way about how things are progressing.  If all goes well, and your order is approved, you’ll receive a date and time when your phone server will be cut over.  You will want to make sure your PBX set up and ready to go before then!
 
-## Create route from Flowroute to your PBX
-You can only complete this step after creating your PBX virtual server, since you'll need its IPv4 address.  After your PBX is up and running, [follow this how-to](https://support.flowroute.com/278843-Create-an-Inbound-Route-with-your-Preferred-PoP) to defile a route. Here are the values to enter:
+## Create route from Flowroute to your PBX (optional)
+_Note: This step is only required if multiple SIP endpoints are connected to your Flowroute account, which won't apply in most cases.  When Flowroute receives an inbound call for your DID, it will check to see whether you've defined a route for the DID, and if so, directs the call there.  If no route is defined, Flowroute announces the call to every registered SIP endpoint, and then completes the call to the first endpoint which answers.  The process is described [here](https://support.flowroute.com/593445-What-is-the-maximum-number-of-simultaneous-SIP-registrations-is-allowed)_.  
+
+You can only complete this step after creating your PBX virtual server, since you'll need its IPv4 address.  After your PBX is up and running, [follow this how-to](https://support.flowroute.com/278843-Create-an-Inbound-Route-with-your-Preferred-PoP) to define a route. Here are the values to enter:
 + Route Type: ***URI***
 + Route: ***sip:FLOWROUTE@IP_address_of_PBX, where IP_address_of_PBX is the IPv4 address assigned to your server***
 + Edge Strategy: ***pick one close to home, e.g. US-East-VA***
