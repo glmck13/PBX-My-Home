@@ -17,20 +17,13 @@ Text = Fields.get("text", [""])[0]
 print("Content-Type: text/plain\n")
 
 if Token not in TOKEN_ALLOW:
-	exit()
+    exit()
 
-msg = {}
-msg["from"] = FLOWROUTE_DID
-msg["body"] = Text
-headers = {}
-headers["Content-Type"] = "application/vnd.api+json"
+msg = {"data" : {"type" : "message", "attributes" : {"from" : FLOWROUTE_DID, "body" : Text}}}
+headers = {"Content-Type" : "application/vnd.api+json"}
 for phone in Contacts.split(','):
-	if len(phone) == 11:
-		pass
-	if len(phone) == 10:
-		phone = '1' + phone
-	else:
-		continue
-	msg["to"] = phone
-	rsp = requests.post(FLOWROUTE_URL, auth=(FLOWROUTE_KEY, FLOWROUTE_SECRET), headers=headers, json=msg).json()
-	print(rsp)
+    if phone[0:2] != '+1':
+        phone = '+1' + phone
+    msg["data"]["attributes"]["to"] = phone
+    rsp = requests.post(FLOWROUTE_URL, auth=(FLOWROUTE_KEY, FLOWROUTE_SECRET), headers=headers, json=msg).json()
+    print(rsp)
