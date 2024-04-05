@@ -94,7 +94,7 @@ else
 fi
 
 if [ "$Text" ]; then
-	body=$(<${Text}) body=${body//\"/\\\"}
+	body=$(<${Text}) body=\"${body//\"/\\\"}\"
 else
 	body="null"
 fi
@@ -108,7 +108,7 @@ do
 		"attributes": {
 			"to": "+1${dst}",
 			"from": "${FLOWROUTE_DID}",
-			"body": "${body}",
+			"body": ${body},
 			"is_mms": ${is_mms},
 			"media_urls": ${media_urls}
 		}

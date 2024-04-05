@@ -17,13 +17,13 @@ blockquote {
   margin-left: 50%;
 }
 .theirChat {
-    background: lightgreen;
+    background: lightgrey;
     font-size: .75em;
     color: black;
     text-align: left;
 }
 .myChat {
-    background: lightgrey;
+    background: lightgreen;
     font-size: .75em;
     color: black;
     text-align: left;
