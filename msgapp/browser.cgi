@@ -14,7 +14,7 @@ Contacts=$(urlencode -d "$QUERY_STRING")
 cat - <<EOF
 <style>
 blockquote {
-  margin-left: 50%;
+  margin-left: 40%;
 }
 .theirChat {
     background: lightgrey;
@@ -52,7 +52,7 @@ do
 	tstamp=${tstamp//-/ }
 
 	if [ -h "$f" ]; then
-		from=$(readlink "$f")
+		from=$(readlink "$f") from=${from#../} from=${from%%/*} from+=": "
 	else
 		from=""
 	fi

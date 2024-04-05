@@ -115,6 +115,7 @@ do
 	}
 	}
 	EOF
+	print; sleep 1s
 done
 
 cd - >/dev/null

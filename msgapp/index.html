@@ -17,7 +17,7 @@ body {
 
 <div>
 <label id="pic" class="dropimage"><input id="drop" type="file" onchange="idle_timer=0; load_image(event);"></label>
-<textarea id="words" placeholder="Text..." onchange="idle_timer=0;"></textarea>
+<textarea id="words" placeholder="Text..." rows=5 onchange="idle_timer=0;"></textarea>
 <input id="contacts" placeholder="Contacts..." onchange="idle_timer=0; get_conversation();">
 <button class="miniButton success" onclick="idle_timer=0; xmt_message();">Send</button>
 <button class="miniButton error" onclick="idle_timer=0; del_conversation();">Delete</button>
@@ -82,7 +82,7 @@ function poll_server () {
 	}
 }
 
-poll_server(); setInterval(poll_server, 5000);
+poll_server(); setInterval(poll_server, 10000);
 </script>
 
 </main>
