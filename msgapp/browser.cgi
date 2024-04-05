@@ -86,9 +86,9 @@ do
 		else
 			display=${Links[$f]}
 			if [ "$display" ]; then
-				value="$display" display+=" &rarr; $f"
+				value="$display" display+=" &rarr; ${f//,/ }"
 			else
-				display="$f" value="$f"
+				value="$f" display="${f//, /}"
 			fi
 			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">$display</button><br>"
 		fi
