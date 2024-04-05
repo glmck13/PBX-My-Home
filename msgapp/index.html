@@ -1,0 +1,90 @@
+<html>
+<head>
+<link href="picnic.min.css" rel="stylesheet">
+<style>
+body {
+  margin: 20px;
+}
+.miniButton {
+    font-size: .75em;
+}
+</style>
+</head>
+<body>
+<main>
+
+<div class="flex three">
+
+<div>
+<label id="pic" class="dropimage"><input id="drop" type="file" onchange="idle_timer=0; load_image(event);"></label>
+<textarea id="words" placeholder="Text..." onchange="idle_timer=0;"></textarea>
+<input id="contacts" placeholder="Contacts..." onchange="idle_timer=0; get_conversation();">
+<button class="miniButton success" onclick="idle_timer=0; xmt_message();">Send</button>
+<button class="miniButton error" onclick="idle_timer=0; del_conversation();">Delete</button>
+<button class="miniButton" onclick="idle_timer=0; pic.removeAttribute('style'); drop.value=''; picURL=''; words.value=''; cmdlog.innerHTML=''; contacts.value=''; get_conversation();">Home</button>
+</div>
+
+<div>
+<div id="conversation"></div>
+</div>
+
+<div>
+<pre id="cmdlog"></pre>
+</div>
+
+</div>
+
+<script>
+var idle_timer = 0;
+var msgapp_server = "https://demo.pbxmyhome.net/msgapp";
+var picURL = '';
+var cmdlog = document.getElementById("cmdlog");
+var pic = document.getElementById("pic");
+var drop = document.getElementById("drop");
+var words = document.getElementById("words");
+var contacts = document.getElementById("contacts");
+var conversation = document.getElementById("conversation");
+
+function get_conversation() {
+  fetch(msgapp_server + "/browser.cgi?" + encodeURIComponent(contacts.value)).then(rsp => rsp.text()).then(text => {conversation.innerHTML = text});
+}
+
+function del_conversation() {
+  if (contacts.value) {
+  fetch(msgapp_server + "/delmms.cgi?" + encodeURIComponent(contacts.value)).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text; contacts.value = ''});
+  }
+}
+
+function xmt_message() {
+  if (words.value || picURL) {
+  fetch(msgapp_server + "/xmtmms.cgi?" + encodeURIComponent(contacts.value), { method: 'POST', body: "data:text/words;base64," + btoa(encodeURIComponent(words.value)) + ',' + picURL }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text});
+  }
+}
+
+function load_image (e) {
+      var reader = new FileReader();
+      reader.onloadend = function(){
+        picURL = reader.result;
+	if (picURL.includes("data:image/")) {
+		pic.style['background-image'] = 'url('+picURL+')';
+	}
+	else {
+		pic.style['background-image'] = 'url("attachment.svg")';
+	}
+      }
+      reader.readAsDataURL(e.target.files[0]);
+}
+
+function poll_server () {
+	++idle_timer;
+	if ((idle_timer < 120) || !(idle_timer % 60)) {
+		get_conversation();
+	}
+}
+
+poll_server(); setInterval(poll_server, 5000);
+</script>
+
+</main>
+</body>
+</html>
