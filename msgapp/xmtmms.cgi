@@ -122,7 +122,7 @@ do
 	}
 	}
 	EOF
-	print "\n\n"
+	print "\n"
 	[ "$TEST_MODE" != "on" ] && sleep 1s
 done
 
