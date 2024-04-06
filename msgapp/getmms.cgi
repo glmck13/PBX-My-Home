@@ -44,7 +44,7 @@ if [ -f "${Contacts:-.}/.did" ]; then
 	fi
 	let secs=$now-$before-60
 	if [ "$secs" -lt 0 ]; then
-		secs="[${secs#-} seconds left to completely delete]"
+		secs="[${secs#-} seconds left to remove]"
 	else
 		secs=""
 	fi
