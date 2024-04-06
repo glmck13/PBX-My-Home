@@ -6,7 +6,14 @@ PATH=${SCRIPT_FILENAME%/*}:$PATH
 print "Content-Type: text/plain\n"
 
 LOCAL_DID=${FLOWROUTE_DID#+1}
-#FLOWROUTE_URL=$MSGAPP_URL/env.cgi?browser
+if [ "${REQUEST_METHOD}" = "PATCH" ]; then
+	FLOWROUTE_URL=$MSGAPP_URL/env.cgi?browser
+	print "*** TEST MODE ***"
+	TEST_MODE="on"
+else
+	TEST_MODE="off"
+fi
+
 cd cache
 
 Base=$(urlencode -d "$QUERY_STRING") Base=${Base//[,;]/ }
@@ -115,7 +122,8 @@ do
 	}
 	}
 	EOF
-	print; sleep 1s
+	print "\n\n"
+	[ "$TEST_MODE" != "on" ] && sleep 1s
 done
 
 cd - >/dev/null

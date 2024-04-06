@@ -1,6 +1,5 @@
-MSGAPP_URL="https://demo.pbxmyhome.net/msgapp"
+MSGAPP_URL="${REQUEST_SCHEME}://${SERVER_NAME}/${SCRIPT_NAME%/*}"
 FLOWROUTE_URL="https://api.flowroute.com/v2.2/messages"
-FLOWROUTE_DID="+19999999999"
+FLOWROUTE_DID=""
 FLOWROUTE_KEY=""
 FLOWROUTE_SECRET=""
-TOKEN_ALLOW=""

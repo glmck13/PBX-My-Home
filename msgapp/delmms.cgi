@@ -15,7 +15,25 @@ Group=${Contacts// /,}
 
 for dir in ${Group}
 do
-	rm -fr $dir
+	cd $dir
+
+	now=$(date "+%s")
+	if [ -f .del ]; then
+		before=$(<.del)
+	else
+		before=0
+	fi
+	echo $now >.del
+
+	let secs=$now-$before-60
+
+	if [ "$secs" -lt 0 ]; then
+		cd - >/dev/null
+		rm -fr $dir
+	else
+		rm -f *
+		cd - >/dev/null
+	fi
 done
 
 find -L . -type l | xargs rm -f

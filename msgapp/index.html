@@ -22,6 +22,7 @@ body {
 <button class="miniButton success" onclick="idle_timer=0; xmt_message();">Send</button>
 <button class="miniButton error" onclick="idle_timer=0; del_conversation();">Delete</button>
 <button class="miniButton" onclick="idle_timer=0; pic.removeAttribute('style'); drop.value=''; picURL=''; words.value=''; cmdlog.innerHTML=''; contacts.value=''; get_conversation();">Home</button>
+<label><input id=demo type="checkbox"><span class="checkable">Test Mode</span></label>
 </div>
 
 <div>
@@ -44,20 +45,21 @@ var drop = document.getElementById("drop");
 var words = document.getElementById("words");
 var contacts = document.getElementById("contacts");
 var conversation = document.getElementById("conversation");
+var demo = document.getElementById("demo");
 
 function get_conversation() {
-  fetch(msgapp_server + "/browser.cgi?" + encodeURIComponent(contacts.value)).then(rsp => rsp.text()).then(text => {conversation.innerHTML = text});
+  fetch(msgapp_server + "/getmms.cgi?" + encodeURIComponent(contacts.value), { method: 'GET' }).then(rsp => rsp.text()).then(text => {conversation.innerHTML = text});
 }
 
 function del_conversation() {
   if (contacts.value) {
-  fetch(msgapp_server + "/delmms.cgi?" + encodeURIComponent(contacts.value)).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text; contacts.value = ''});
+  fetch(msgapp_server + "/delmms.cgi?" + encodeURIComponent(contacts.value), { method: 'DELETE' }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text; contacts.value = ''});
   }
 }
 
 function xmt_message() {
   if (words.value || picURL) {
-  fetch(msgapp_server + "/xmtmms.cgi?" + encodeURIComponent(contacts.value), { method: 'POST', body: "data:text/words;base64," + btoa(encodeURIComponent(words.value)) + ',' + picURL }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text});
+  fetch(msgapp_server + "/xmtmms.cgi?" + encodeURIComponent(contacts.value), { method: demo.checked ? 'PATCH' : 'POST', body: "data:text/words;base64," + btoa(encodeURIComponent(words.value)) + ',' + picURL }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text});
   }
 }
 
@@ -77,7 +79,7 @@ function load_image (e) {
 
 function poll_server () {
 	++idle_timer;
-	if ((idle_timer < 120) || !(idle_timer % 60)) {
+	if ((idle_timer < 60) || !(idle_timer % 30)) {
 		get_conversation();
 	}
 }
