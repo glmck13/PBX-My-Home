@@ -86,7 +86,20 @@ do
 	cd - >/dev/null
 done
 
-[ "$Group" ] && [ "$Handle" ] && ln -s "$Group" "$Handle"
+if [ "$Group" ]; then
+	if [ "$Handle" ]; then
+		typeset -A Links	
+		for f in *
+		do
+			[ -h "$f" ] && Links[$(readlink "$f")]="$f"
+		done
+		if [ "$Handle" != "@-" ]; then
+			ln -s "$Group" "$Handle"
+		else
+			rm -f "${Links[$Group]}"
+		fi
+	fi
+fi
 
 if [ "$Text" -o "$Media" ]; then
 

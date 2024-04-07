@@ -32,6 +32,9 @@ blockquote {
 EOF
 
 typeset -A Links
+
+Contacts=${Contacts%%;*}
+
 if [ -f "${Contacts:-.}/.did" ]; then
 	cd "$Contacts"
 	rm -f .new
@@ -95,14 +98,14 @@ do
 		fi
 		if [[ "$f" == @* ]]; then
 			:
-		elif [ "${LOCAL_DID}" = "$(<$f/.did)" ]; then
-			:
+		#elif [ "${LOCAL_DID}" = "$(<$f/.did)" ]; then
+		#	:
 		else
 			display=${Links[$f]}
 			if [ "$display" ]; then
-				value="$display" display+=" &rarr; ${f//,/ }"
+				value="$display;$f"
 			else
-				value="$f" display="${f//, /}"
+				value="$f" display="$f"
 			fi
 			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">$display</button><br>"
 		fi
