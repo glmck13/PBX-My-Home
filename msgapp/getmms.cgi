@@ -60,9 +60,9 @@ else
 	done
 fi
 
-ls -1tl --time-style="+%a,-%b-%-d-at-%I:%M:%S-%p" | while read line
+ls -1tl --time-style="+%a,-%b-%-d-at-%I:%M:%S-%p" | while read -r line
 do
-	print -- "$line" | read x x x x x tstamp f x
+	print -- "$line" | read -r x x x x x tstamp f x
 
 	[ ! "$f" ] && continue
 

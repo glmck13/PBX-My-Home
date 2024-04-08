@@ -12,7 +12,7 @@ mkdir -p $LOCAL_DID; [ ! -h @DID ] && ln -s $LOCAL_DID @DID
 cd $LOCAL_DID; echo $LOCAL_DID >.did
 cd - >/dev/null
 
-tee ../debug/rcv$$.json | parsemms.py | while read Did Mime Content
+tee ../debug/rcv$$.json | parsemms.py | while read -r Did Mime Content
 do
 	mkdir -p $Did
 	cd $Did; echo $Did >.did; >.new
@@ -23,7 +23,8 @@ do
 	if [[ "$Mime" == *text* ]]; then
 		ext="txt"
 		Base=$Base.$ext
-		eval print $Content >$Base
+		Content=${Content%[\'\"]} Content=${Content#[\'\"]}
+		print "$Content" >$Base
 	else
 		Base=$Base.$ext
 		curl -s "$Content" >$Base

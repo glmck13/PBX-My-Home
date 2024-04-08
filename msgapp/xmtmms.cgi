@@ -47,7 +47,7 @@ do
 
 	if [[ "$k" == *image* ]]; then
 		mv $v-bin $v-bin.$ext
-		identify $v-bin.$ext 2>/dev/null | read x x dim x
+		identify $v-bin.$ext 2>/dev/null | read -r x x dim x
 		dim=${dim%%x*}
 		Media=$Base.$ext
 		if [ ${dim:-0} -gt 1000 ]; then
