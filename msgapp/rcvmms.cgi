@@ -23,7 +23,7 @@ do
 	if [[ "$Mime" == *text* ]]; then
 		ext="txt"
 		Base=$Base.$ext
-		print $Content >$Base
+		eval print $Content >$Base
 	else
 		Base=$Base.$ext
 		curl -s "$Content" >$Base
