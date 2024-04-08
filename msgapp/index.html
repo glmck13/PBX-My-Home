@@ -3,10 +3,10 @@
 <link href="picnic.min.css" rel="stylesheet">
 <style>
 body {
-  margin: 20px;
+	margin: 20px;
 }
 .miniButton {
-    font-size: .75em;
+	font-size: .75em;
 }
 </style>
 </head>
@@ -46,35 +46,50 @@ var words = document.getElementById("words");
 var contacts = document.getElementById("contacts");
 var conversation = document.getElementById("conversation");
 var demo = document.getElementById("demo");
+var did_map = [];
+
+function map_did (str, dir) {
+	var n = did_map.length, s = str;
+	var f, r, m;
+	while (n-- > 0) {
+		m = did_map[n];
+		if (dir)
+			{f = m[0]; r = m[1]; }
+		else
+			{f = m[1]; r = m[0]; }
+		s = s.split(f).join(r);
+	}
+	return s;
+}
 
 function get_conversation() {
-  fetch(msgapp_server + "/getmms.cgi?" + encodeURIComponent(contacts.value), { method: 'GET' }).then(rsp => rsp.text()).then(text => {conversation.innerHTML = text});
+	fetch(msgapp_server + "/getmms.cgi?" + encodeURIComponent(map_did(contacts.value,0)), { method: 'GET' }).then(rsp => rsp.text()).then(text => {conversation.innerHTML = map_did(text,1)});
 }
 
 function del_conversation() {
-  if (contacts.value) {
-  fetch(msgapp_server + "/delmms.cgi?" + encodeURIComponent(contacts.value), { method: 'DELETE' }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text; contacts.value = ''});
-  }
+	if (contacts.value) {
+	fetch(msgapp_server + "/delmms.cgi?" + encodeURIComponent(map_did(contacts.value,0)), { method: 'DELETE' }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = map_did(text,1); contacts.value = ''});
+	}
 }
 
 function xmt_message() {
-  if (words.value || picURL) {
-  fetch(msgapp_server + "/xmtmms.cgi?" + encodeURIComponent(contacts.value), { method: demo.checked ? 'PATCH' : 'POST', body: "data:text/words;base64," + btoa(encodeURIComponent(words.value)) + ',' + picURL }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = text});
-  }
+	if (words.value || picURL) {
+	fetch(msgapp_server + "/xmtmms.cgi?" + encodeURIComponent(map_did(contacts.value,0)), { method: demo.checked ? 'PATCH' : 'POST', body: "data:text/words;base64," + btoa(encodeURIComponent(words.value)) + ',' + picURL }).then(rsp => rsp.text()).then(text => {cmdlog.innerHTML = map_did(text,1)});
+	}
 }
 
 function load_image (e) {
-      var reader = new FileReader();
-      reader.onloadend = function(){
-        picURL = reader.result;
-	if (picURL.includes("data:image/")) {
-		pic.style['background-image'] = 'url('+picURL+')';
+	var reader = new FileReader();
+	reader.onloadend = function() {
+		picURL = reader.result;
+		if (picURL.includes("data:image/")) {
+			pic.style['background-image'] = 'url('+picURL+')';
+		}
+		else {
+			pic.style['background-image'] = 'url("attachment.svg")';
+		}
 	}
-	else {
-		pic.style['background-image'] = 'url("attachment.svg")';
-	}
-      }
-      reader.readAsDataURL(e.target.files[0]);
+	reader.readAsDataURL(e.target.files[0]);
 }
 
 function poll_server () {
