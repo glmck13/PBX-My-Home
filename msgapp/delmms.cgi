@@ -13,7 +13,7 @@ Contacts=$(echo $Base $Expand | xargs -n1 | grep -E '^[[:digit:]]{10,10}$' | sor
 Contacts=$(echo $Contacts)
 Group=${Contacts// /,}
 
-for dir in ${Group}
+for dir in ${Contacts//$Group/} ${Group}
 do
 	cd $dir
 
