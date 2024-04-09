@@ -77,7 +77,7 @@ done
 rm -f x?? x??-*
 cd - >/dev/null
 
-for dir in ${Contacts} ${Group}
+for dir in ${Contacts//$Group/} ${Group}
 do
 	mkdir -p $dir
 	cd $dir; echo ${dir} >.did
