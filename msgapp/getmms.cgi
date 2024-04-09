@@ -32,6 +32,10 @@ blockquote {
 EOF
 
 typeset -A Links
+for f in *
+do
+	[ -h "$f" ] && Links[$(readlink "$f")]="$f"
+done
 
 Contacts=${Contacts%%;*}
 
@@ -53,11 +57,6 @@ if [ -f "${Contacts:-.}/.did" ]; then
 	fi
 
 	print "<h3>Message folder: $Contacts $secs</h3>"
-else
-	for f in *
-	do
-		[ -h "$f" ] && Links[$(readlink "$f")]="$f"
-	done
 fi
 
 ls -1tl --time-style="+%a,-%b-%-d-at-%I:%M:%S-%p" | while read -r line
@@ -69,7 +68,9 @@ do
 	tstamp=${tstamp//-/ }
 
 	if [ -h "$f" ]; then
-		from=$(readlink "$f") from=${from#../} from=${from%%/*} from+=": "
+		from=$(readlink "$f") from=${from#../} from=${from%%/*}
+		x=${Links[$from]}; [ "$x" ] && from=$x
+		from+=": "
 	else
 		from=""
 	fi
