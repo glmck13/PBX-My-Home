@@ -106,7 +106,7 @@ do
 			if [ "$display" ]; then
 				value="$display;$f"
 			else
-				value="$f" display="$f"
+				value="$f" display="${f//,/ }"
 			fi
 			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">$display</button>"
 		fi
