@@ -19,8 +19,8 @@ body {
 <label id="pic" class="dropimage"><input id="drop" type="file" onchange="idle_timer=0; load_image(event);"></label>
 <textarea id="words" placeholder="Text..." rows=5 onchange="idle_timer=0;"></textarea>
 <input id="contacts" placeholder="Contacts..." onchange="idle_timer=0; get_conversation();">
-<button class="miniButton success" onclick="idle_timer=0; xmt_message();">Send</button>
-<button class="miniButton error" onclick="idle_timer=0; del_conversation();">Delete</button>
+<button class="miniButton success" onclick="idle_timer=0; if (words.value || picURL) xmt_message(); else alert('Nothing to send!');">Send</button>
+<button class="miniButton error" onclick="idle_timer=0; if (confirm('Are you sure you want to delete these messages/numbers?')) del_conversation();">Delete</button>
 <button class="miniButton" onclick="idle_timer=0; pic.removeAttribute('style'); drop.value=''; picURL=''; words.value=''; cmdlog.innerHTML=''; contacts.value=''; get_conversation();">Home</button>
 <label><input id=demo type="checkbox"><span class="checkable">Test Mode</span></label>
 </div>

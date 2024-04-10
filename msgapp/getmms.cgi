@@ -108,7 +108,7 @@ do
 			else
 				value="$f" display="$f"
 			fi
-			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">$display</button><br>"
+			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">$display</button>"
 		fi
 
 	elif [ "$ext" = "txt" ]; then
