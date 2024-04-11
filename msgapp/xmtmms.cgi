@@ -7,7 +7,7 @@ print "Content-Type: text/plain\n"
 
 LOCAL_DID=${FLOWROUTE_DID#+1}
 if [ "${REQUEST_METHOD}" = "PATCH" ]; then
-	FLOWROUTE_URL=$MSGAPP_URL/env.cgi?browser
+	FLOWROUTE_URL=$MSGAPP_URL/env.cgi
 	print "*** TEST MODE ***"
 	TEST_MODE="on"
 else
