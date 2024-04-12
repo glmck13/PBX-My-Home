@@ -27,9 +27,17 @@ Once your server is running, download and scp the freepbx17.sh script from this 
 ```
  # -A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
 ```
-Replace “XXX…” with the IP address of your router, remove the comment character at the front, save the file, then make it executable.  Launch the script.
+Replace “XXX…” with the IP address of your router, remove the comment character at the front, save the file, then make it executable.  
 
-You’ll run the script twice.  The first time through the script applies Debian updates and installs a collection of prerequisite packages needed by Asterisk and FreePBX. Respond no when asked if you want to save the current IPv4/IPv6 firewall rules.  After installing this first set of packages, the script prompts you to reboot.  Respond (y)es on the first run, wait for the server to come back online, ssh back in, and run freepbx17.sh a second time.  When prompted to reboot, respond (n)o this time, and the script will download, compile, and install Asterisk, then download and install FreePBX.  When asked to select modules during the Asterisk build, just accept the defaults.  When the script completes, reboot the server then ssh back in to confirm your firewall rules are correct.  You can now proceed to set up FreePBX.  
+You'll also need to check the swap space on the server.  You can check this by running the 'top' command.  If the swap allocation is less than 1GB (FreePBX requires a minimum of 200MB), them run the mkswap.sh script and reboot the server.  
+
+Now launch the script.  You’ll run the script twice.  The first time through the script applies Debian updates and installs a collection of prerequisite packages needed by Asterisk and FreePBX. Respond no when asked if you want to save the current IPv4/IPv6 firewall rules.  After installing this first set of packages, the script prompts you to reboot.  Respond (y)es on the first run, wait for the server to come back online, ssh back in, and run freepbx17.sh a second time.  When prompted to reboot, respond (n)o this time, and the script will download, compile, and install Asterisk, then download and install FreePBX.  When asked to select modules during the Asterisk build, just accept the defaults.  When the script completes, reboot the server then ssh back in to confirm your firewall rules are correct.  
+
+Apply the following additional patches:
+
++ [freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb](https://community.freepbx.org/t/freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb/93933)
+
+You can now proceed with setting up FreePBX.  
 
 ## Configure FreePBX
 Access the FreePBX console from your browser using the IP address of the server, complete the initial startup screens, then proceed with the configuration steps below. Hold off clicking the red “Apply Config” button at the top until you’re finished submitting all the changes.
