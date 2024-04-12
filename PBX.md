@@ -25,7 +25,7 @@ Select the SSH keys and Firewall Group you created earlier, enter a hostname for
 ## Install Asterisk and FreePBX
 
 ### Update! April 12, 2024
-I just found [this installaton script from Sangoma](https://github.com/FreePBX/sng_freepbx_debian_install/blob/master/sng_freepbx_debian_install.sh).  I'll test it out and see whether it can replace the installation script posted in this repo. I'd much rather use something that's published and maintained by Sangoma! :-)
+I just found [this installaton script from Sangoma](https://github.com/FreePBX/sng_freepbx_debian_install).  I'll test it out and see whether it can replace the installation script posted in this repo. I'd much rather use something that's published and maintained by Sangoma! :-)
 
 Once your server is running, download and scp the freepbx17.sh script from this repository onto the root account on your server.  The script is based on the [instructions posted on Sangoma’s website](https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682545/How+to+Install+FreePBX+17+on+Debian+12+with+Asterisk+20) for downloading and installing the latest versions of Asterisk and FreePBX 17 on Debian.  Before running the script, make sure to update the file with the IP address of the broadband router in your home.  Edit the file and look for the line at the end that reads:
 ```
