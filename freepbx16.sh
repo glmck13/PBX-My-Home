@@ -75,7 +75,7 @@ rm /var/www/html/index.html
 cat <<EOF > /etc/odbcinst.ini
 [MySQL]
 Description = ODBC for MySQL (MariaDB)
-Driver = /usr/lib/x86_64-linux-gnu/odbc/libmaodbc.so
+Driver = /usr/lib/$(arch)-linux-gnu/odbc/libmaodbc.so
 FileUsage = 1
 EOF
 
