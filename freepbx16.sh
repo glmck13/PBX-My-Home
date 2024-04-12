@@ -55,7 +55,7 @@ sed -i 's|#AST_USER|AST_USER|' /etc/default/asterisk
 sed -i 's|#AST_GROUP|AST_GROUP|' /etc/default/asterisk
 sed -i 's|;runuser|runuser|' /etc/asterisk/asterisk.conf
 sed -i 's|;rungroup|rungroup|' /etc/asterisk/asterisk.conf
-echo "/usr/lib64" >> /etc/ld.so.conf.d/x86_64-linux-gnu.conf
+echo "/usr/lib64" >> /etc/ld.so.conf.d/asterisk.conf
 ldconfig
 
 #
