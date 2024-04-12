@@ -1,3 +1,3 @@
 
 ## MMS Messaging app
-<img src="msgapp/msgapp.png" width=500>
+<img src="main/msgapp/msgapp.png" width=500>
