@@ -20,6 +20,9 @@ Click “Apply”
 
 Click “Reboot”.  After the ATA comes back on line dial *60# on your phone handset. If all goes well you’ll be connected to the "current time" application on your FreePBX server!
 
+### Note
+If you want to connect the Grandstream to Flowroute directly, you can follow the instructions above using your supplied Flowroute SIP credentials with one notable exception.  The "SIP User ID" must be set to your 10 digit phone number in order that this will be passed along as the caller ID in outgoing calls.  Flowroute specifically mentions this in their [Generic PBX or phone setup guide](https://support.flowroute.com/293702-Generic-PBX-or-phone-setup-guide).  You may also need to set the "Name" field to your DID as well.  And while you're at it, set the "Dial Plan Prefix" to "1" on the Granstream so you don't have to add this digit on every call.
+
 ## Configure softphone on Windows/Linux
 I’ve had excellent success using the [Linphone SIP client from Belledonne Communications](https://www.linphone.org/).  It supports both audio and video calling, and has lots of features, but we’ll just configure the basics for now.  
 
