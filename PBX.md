@@ -2,7 +2,7 @@
 Although I’m a big fan of AWS LightSail, I recently found out about Vultr, a cloud provider recommended by [Crosstalk Solutions](https://www.crosstalksolutions.com/recommendations/). Vutlr's pricing is comparable to AWS, and they're not charging for use of an IPv4 address, so their monthly rate comes in a few dollars cheaper than AWS for now. :-) You can sign up for a [Vultr account here](https://www.vultr.com/register/).
 
 ## Spin up server
-We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https://www.freepbx.org/) on a vanilla version of Debian 12.  Before spinning up the server, follow Vultr's instructions for creating [SSH keys](https://docs.vultr.com/how-do-i-generate-ssh-keys) and [firewall rules](https://docs.vultr.com/vultr-firewall).  Here are the rules for the firewall (for now we’re going to stick with IPv4, since the various IPv6 SIP implementations still seem somewhat buggy):  
+We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https://www.freepbx.org/) on a vanilla version of Debian 12.  Before spinning up the server, follow Vultr's instructions for creating [SSH keys](https://docs.vultr.com/how-do-i-generate-ssh-keys) and [firewall rules](https://docs.vultr.com/vultr-firewall).  Here are the rules for the firewall (for now we’re going to stick with IPv4, since the various IPv6 SIP implementations of FreePBX and Asterisk still claim to be somewhat buggy):  
 + accept	SSH	22	0.0.0.0/0	
 + accept	TCP (HTTP)	80	0.0.0.0/0	
 + accept	TCP	3478	0.0.0.0/0	
@@ -24,7 +24,7 @@ Select the SSH keys and Firewall Group you created earlier, enter a hostname for
 
 ## Install Asterisk and FreePBX
 
-### Update! April 12, 2024
+### Update! April, 2024
 I just found [this installaton script from Sangoma](https://github.com/FreePBX/sng_freepbx_debian_install).  I'll test it out and see whether it can replace the installation script posted in this repo. I'd much rather use something that's published and maintained by Sangoma! :-)
 
 Once your server is running, download and scp the freepbx17.sh script from this repository onto the root account on your server.  The script is based on the [instructions posted on Sangoma’s website](https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682545/How+to+Install+FreePBX+17+on+Debian+12+with+Asterisk+20) for downloading and installing the latest versions of Asterisk and FreePBX 17 on Debian.  Before running the script, make sure to update the file with the IP address of the broadband router in your home.  Edit the file and look for the line at the end that reads:
@@ -42,6 +42,9 @@ Apply the following additional patches:
 + [freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb](https://community.freepbx.org/t/freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb/93933)
 
 You can now proceed with setting up FreePBX.  
+
+### Extra!
+For those of you who have a Raspberry Pi 4 laying around, and wanted to repurpose it as a PBX, you're in luck!  I successfully executeed freepbx17.sh on a Raspberry Pi 4 running the latest version of Raspberry Pi OS based on Debian 12.
 
 ## Configure FreePBX
 Access the FreePBX console from your browser using the IP address of the server, complete the initial startup screens, then proceed with the configuration steps below. Hold off clicking the red “Apply Config” button at the top until you’re finished submitting all the changes.
