@@ -15,3 +15,14 @@ a2enmod cgid
 sed -i -e "s/^#\([[:space:]]*AddHandler[[:space:]]*cgi-script[[:space:]]*\.cgi\)$/\1/" /etc/apache2/mods-available/mime.conf
 sed -i -e "s/^\([[:space:]]*Options Indexes FollowSymLinks\)$/\1 ExecCGI/" /etc/apache2/apache2.conf
 ```
++ Prevent FreePBX from disabling execute permissions on the app:
+```
+cat - <<EOF >/etc/asterisk/freepbx_chown.conf
+[blacklist]
+directory = /var/www/html/cgi
+directory = /var/www/html/msgapp
+```
++ Grant Flowroute's MMS messaging server access to your PBX by adding the following statement to your /etc/iptables/rules.v4 file anywhere before the final COMMIT:
+```
+-A INPUT -s 52.88.246.140 -j ACCEPT
+```
