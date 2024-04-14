@@ -1,4 +1,4 @@
-## MMS Messaging app
+## SMS/MMS Messaging app
 <img src="https://github.com/glmck13/PBX-My-Home/blob/main/msgapp/screenshot.png" width=500>
 
 ## Installation instructions
@@ -22,7 +22,10 @@ cat - <<EOF >/etc/asterisk/freepbx_chown.conf
 directory = /var/www/html/cgi
 directory = /var/www/html/msgapp
 ```
-+ Grant Flowroute's MMS messaging server access to your PBX by adding the following statement to your /etc/iptables/rules.v4 file anywhere before the final COMMIT:
++ Grant Flowroute's SMS/MMS messaging server access to your PBX by adding the following statement to your /etc/iptables/rules.v4 file anywhere before the final COMMIT:
 ```
 -A INPUT -s 52.88.246.140 -j ACCEPT
 ```
++ Install the "msgapp" directory and it contents located in this repository directly under /var/www/html on your server.  Be sure to chmod +x *.cgi *sh *.py.  Afterwards, edit the two getenv files and populate your Flowroute credentials as well as the msgapp URL for your site.
+
+That's it!
