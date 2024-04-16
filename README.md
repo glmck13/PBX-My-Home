@@ -9,6 +9,6 @@ Installation consists of 3 steps:
 3. [Configure your home SIP clients](Clients.md)
 
 # Messaging App
-Since my Flowroute VoiP number comes with SMS/MMS messaging support, I figured I'd write a simple app to send/receive messages using the number.  First you have to submit what's called a [A2P/10DLC registration](https://support.flowroute.com/727644-Messaging-Guidelines---Start-Here-with-10DLC) to attest you're not a spammer.  Until you're approved, Flowroute will block any outbound message.  I have a note into Flowroute asking how an individual user - i.e. not a business - should complete the application.  
+Since my Flowroute VoiP number comes with SMS/MMS messaging support, I figured I'd write a simple app to send/receive messages using the number.  First you have to submit what's called a [A2P/10DLC registration](https://support.flowroute.com/727644-Messaging-Guidelines---Start-Here-with-10DLC) to attest you're not a spammer.  Until you're approved, Flowroute will block any outbound messages from your DID (although you can still receive messages).  I recently submitted my own A2P application, so I'll let you how that goes.  
 
-You can find [instructions for installing the app here](Msgapp.md).
+[Instructions for installing the app can be found here](Msgapp.md).
