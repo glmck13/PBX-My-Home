@@ -1,0 +1,3 @@
+<FilesMatch "^getenv.sh">
+        Require all denied
+</FilesMatch>

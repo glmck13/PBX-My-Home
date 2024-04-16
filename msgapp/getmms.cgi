@@ -56,7 +56,8 @@ if [ -f "${Contacts:-.}/.did" ]; then
 		secs=""
 	fi
 
-	print "<h3>Message folder: $Contacts $secs</h3>"
+	auth="#"; [ -f .auth ] && auth=""
+	print "<h3>${auth}Message folder: $Contacts $secs</h3>"
 fi
 
 ls -1tl --time-style="+%a,-%b-%-d-at-%I:%M:%S-%p" | while read -r line
@@ -108,7 +109,9 @@ do
 			else
 				value="$f" display="${f//,/ }"
 			fi
-			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">$display</button>"
+
+			auth="#"; [ -f "$f/.auth" ] && auth=""
+			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">${auth}${display}</button>"
 		fi
 
 	elif [ "$ext" = "txt" ]; then
