@@ -26,6 +26,15 @@ directory = /var/www/html/msgapp
 ```
 -A INPUT -s 52.88.246.140 -j ACCEPT
 ```
-+ Install the "msgapp" directory and it contents located in this repository directly under /var/www/html on your server.  Be sure to chmod +x *.cgi *sh *.py.  Afterwards, edit the two getenv files and populate your Flowroute credentials as well as the msgapp URL for your site.
++ Install the "msgapp" directory and its contents located in this repository directly under /var/www/html on your server. then execute:
+```
+chmod +x *.cgi *sh *.py
+mv htaccess .htaccess
+```
++ Edit the two getenv files and populate your Flowroute credentials as well as the msgapp URL for your site.  Set the A2P variable to whatever name you want to associate with your DID within A2P authorization messages.
+
++ Login to your Flowroute account, select your DID, then:
+  + Choose a DID Action &rarr; Enable Messaging, Apply Action
+  + Choose a DID Action &rarr; Set Callback URL, Apply Action.  On the next screen enter the https URL for your mspapp in the "Callback URL" box, check all of the SM, MMS, and DLR boxes, and then click Set Callback URL.
 
 That's it!
