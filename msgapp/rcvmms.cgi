@@ -7,22 +7,22 @@ function exec_a2pcmds
 	if [[ "$Mime" != *text* ]]; then
 		return 1
 
-	elif [[ "$Content" == *#!on* ]]; then
-		body="Welcome! You just elected to turn on messages from [$FLOWROUTE_A2P]. You can turn off messages at any time by texting back the string: #!off.  For help, text: #!help."
+	elif [[ "$Content" == *#!START* ]]; then
+		body="You just elected to turn ON messages from [$FLOWROUTE_A2PID] using this number. You can turn OFF messages at any time by texting back the string #!STOP.  For help, text #!HELP. Welcome to my world!"
 		mkdir -p $Did
 		echo "$Did" >$Did/.did
 		echo "$Content" >$Did/.auth
 
-	elif [[ "$Content" == *#!off* ]]; then
-		body="You just elected to turn off messages from [$FLOWROUTE_A2P]. Goodbye!"
+	elif [[ "$Content" == *#!STOP* ]]; then
+		body="You just elected to turn OFF messages from [$FLOWROUTE_A2PID], and will receive no further communications from this number. Goodbye!"
 		rm -fr $Did
 		find -L . -type l | xargs rm -f
 
-	elif [[ "$Content" == *#!help* ]]; then
+	elif [[ "$Content" == *#!HELP* ]]; then
 		if [ -f $Did/.auth ]; then
-			body="Messages from [$FLOWROUTE_A2P] are currently turned on. You can turn off messages at any time by texting back the string: #!off.  For help, text: #!help."
+			body="Messages from [$FLOWROUTE_A2PID] are currently turned ON. You can turn OFF messages at any time by texting back the string #!STOP. For additional questions, contact me at [$FLOWROUTE_A2PHONE]. Thanks!"
 		else
-			body="Messages from [$FLOWROUTE_A2P] are currently turned off. You can turn on messages at any time by texting back the string: #!on.  For help, text: #!help."
+			body="Messages from [$FLOWROUTE_A2PID] are currently turned OFF. You can turn ON messages at any time by texting back the string #!START. For additional questions, contact me at [$FLOWROUTE_A2PHONE]. Thanks!"
 		fi
 	else
 		return 1
