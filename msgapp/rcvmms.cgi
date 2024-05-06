@@ -29,7 +29,7 @@ function exec_a2pcmds
 	fi
 
 	if [ "$body " ]; then
-		curl -s "${FLOWROUTE_URL}" -X POST -u "${FLOWROUTE_KEY}":"${FLOWROUTE_SECRET}" -H 'Content-Type: application/vnd.api+json' -d @- <<-EOF 2>&1
+		curl -s "${FLOWROUTE_URL}" -X POST -u "${FLOWROUTE_KEY}":"${FLOWROUTE_SECRET}" -H 'Content-Type: application/vnd.api+json' -d @- <<-EOF 2>&1 | tee ../debug/xmt$$.json
 			{ "data": { "type": "message", "attributes": { "to": "+1${Did}", "from": "${FLOWROUTE_DID}", "body": "${body}", "is_mms": false, "media_urls": [] } } }
 		EOF
 	fi
