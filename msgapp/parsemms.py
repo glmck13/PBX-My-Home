@@ -12,15 +12,20 @@ if what == "message":
 	body = data["body"]
 
 	did = data["from"]
-	if did[0] == "1":
+	if did[0:2] == "+1":
+		pass
+	elif did[0] == "1":
+		did = "+" + did
+	did = did.split("+1")
+	if not did[0]:
 		did = did[1:]
-	elif did[0:2] == "+1":
-		did = did[2:]
+	did.sort()
+	did = ','.join(did)
 
 	if did:
 	    if body:
 	    	print(did, "text/plain", repr(body), sep="\t")
-	    if is_mms:
+	    if is_mms and "included" in mms:
 	    	for media in mms["included"]:
 	    		media = media["attributes"]
 	    		print(did, media["mime_type"], media["url"], sep="\t")

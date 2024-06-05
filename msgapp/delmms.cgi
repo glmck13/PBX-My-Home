@@ -13,9 +13,10 @@ Contacts=$(echo $Base $Expand | xargs -n1 | grep -E '^[[:digit:]]{5,10}$' | sort
 Contacts=$(echo $Contacts)
 Group=${Contacts// /,}
 
-for dir in ${Contacts//$Group/} ${Group}
+#for dir in ${Contacts//$Group/} ${Group}
+for dir in ${Group}
 do
-	cd $dir
+	cd $dir || continue
 
 	now=$(date "+%s")
 	if [ -f .del ]; then

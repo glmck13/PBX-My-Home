@@ -5,9 +5,9 @@ PATH=${SCRIPT_FILENAME%/*}:$PATH
 
 print "Content-Type: text/plain\n"
 
-LOCAL_DID=${FLOWROUTE_DID#+1}
+LOCAL_DID=${MSGAPP_DID#+1}
 if [ "${REQUEST_METHOD}" = "PATCH" ]; then
-	FLOWROUTE_URL=$MSGAPP_URL/env.cgi
+	MSGAPP_MYURL=$MSGAPP_MYURL/env.cgi
 	print "*** TEST MODE ***"
 	TEST_MODE="on"
 else
@@ -21,6 +21,7 @@ Expand=$(echo $Base | xargs -n1 | xargs -I '{}' cat {}/.did 2>/dev/null) Expand=
 Contacts=$(echo $Base $Expand | xargs -n1 | grep -E '^[[:digit:]]{5,10}$' | sort | uniq)
 Contacts=$(echo $Contacts)
 
+if [ "$MSGAPP_BACKEND" != "SXMO" ]; then
 for dir in ${Contacts}
 do
 	if [ ! -f $dir/.auth ]; then
@@ -29,6 +30,7 @@ do
 	fi
 done
 Contacts=$(echo $Contacts)
+fi
 
 Group=${Contacts// /,}
 
@@ -87,7 +89,10 @@ done
 rm -f x?? x??-*
 cd - >/dev/null
 
-for dir in ${Contacts//$Group/} ${Group}
+distro=${Group}
+[ "$MSGAPP_BACKEND" = "SXMO" ] || distro+=" ${Contacts//$Group/}"
+
+for dir in ${distro}
 do
 	mkdir -p $dir
 	cd $dir; echo ${dir} >.did
@@ -115,32 +120,50 @@ if [ "$Text" -o "$Media" ]; then
 
 cd $LOCAL_DID
 
+urls=""
 if [ "$Media" ]; then
 	is_mms="true"
-	media_urls="[\"${MSGAPP_URL}/cache/${LOCAL_DID}/${Media}\"]"
+	urls+="${MSGAPP_MYURL}/cache/${LOCAL_DID}/${Media}"
 else
 	is_mms="false"
-	media_urls="[]"
 fi
 
 if [ "$Text" ]; then
-	body=$(<${Text}) body=\"${body//\"/\\\"}\"
+	if [ "$MSGAPP_BACKEND" = "SXMO" ]; then
+		urls+=" ${MSGAPP_MYURL}/cache/${LOCAL_DID}/${Text}"
+		body="null"
+	else
+		body=$(<${Text}) body=\"${body//\"/\\\"}\"
+	fi
 else
 	body="null"
 fi
+urls="[\"$(echo $urls | sed -e "s/  */\",\"/g")\"]"
+[ "$urls" = '[""]' ] && urls="[]"
 
+distro=""
 for dst in ${Contacts}
 do
-	curl -s "${FLOWROUTE_URL}" -X POST -u "${FLOWROUTE_KEY}":"${FLOWROUTE_SECRET}" -H 'Content-Type: application/vnd.api+json' -d @- <<-EOF 2>&1
+	[[ "$dst" == ?????????? ]] && dst="+1$dst"
+	distro+=" \"$dst\""
+done
+
+if [ "$MSGAPP_BACKEND" = "SXMO" ]; then
+	[ "$distro" ] && distro="[$(echo $distro | sed -e "s/  */,/g")]"
+fi
+
+for dst in $distro
+do
+	curl -s "${MSGAPP_SENDAPI}" -X POST -u "${MSGAPP_KEY}":"${MSGAPP_SECRET}" -H 'Content-Type: application/vnd.api+json' -d @- <<-EOF 2>&1
 	{
 	"data": {
 		"type": "message",
 		"attributes": {
-			"to": "+1${dst}",
-			"from": "${FLOWROUTE_DID}",
+			"to": ${dst},
+			"from": "${MSGAPP_DID}",
 			"body": ${body},
 			"is_mms": ${is_mms},
-			"media_urls": ${media_urls}
+			"media_urls": ${urls}
 		}
 	}
 	}

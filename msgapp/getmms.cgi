@@ -3,7 +3,7 @@
 PATH=${PWD}:$PATH
 . getenv.sh
 
-LOCAL_DID=${FLOWROUTE_DID#+1}
+LOCAL_DID=${MSGAPP_DID#+1}
 
 print "Content-Type: text/html\n"
 
@@ -56,7 +56,7 @@ if [ -f "${Contacts:-.}/.did" ]; then
 		secs=""
 	fi
 
-	auth="#"; [ -f .auth ] && auth=""
+	auth="#"; [ -f .auth -o "$MSGAPP_BACKEND" = "SXMO" ] && auth=""
 	print "<h3>${auth}Message folder: $Contacts $secs</h3>"
 fi
 
@@ -110,7 +110,7 @@ do
 				value="$f" display="${f//,/ }"
 			fi
 
-			auth="#"; [ -f "$f/.auth" ] && auth=""
+			auth="#"; [ -f "$f/.auth" -o "$MSGAPP_BACKEND" = "SXMO" ] && auth=""
 			print "<button data-tooltip=\"${tstamp}\" class=\"${new} ${tiploc}\" onclick=\"contacts.value='$value'; get_conversation()\">${auth}${display}</button>"
 		fi
 

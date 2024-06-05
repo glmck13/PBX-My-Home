@@ -1,1 +1,1 @@
-var msgapp_server = "https://demo.pbxmyhome.net/msgapp";
+var msgapp_server = "https://mckspot.net/6673711358";
