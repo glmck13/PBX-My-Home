@@ -88,8 +88,7 @@ extractmmsattachement() {
 				;;
 		esac
 
-		MMS_BASE_DIR="${SXMO_MMS_BASE_DIR:-"$HOME"/.mms/modemmanager}"
-		if [ -f "$MMS_BASE_DIR/$MMS_FILE" ]; then
+		if [ -f "$SXMO_MMS_BASE_DIR/$MMS_FILE" ]; then
 			OUTFILE="$MMS_FILE.$DATA_EXT"
 			count=0
 			while [ -f "$SXMO_LOGDIR/$LOGDIRNUM/attachments/$OUTFILE" ]; do
@@ -97,7 +96,7 @@ extractmmsattachement() {
 				count="$((count+1))"
 			done
 			dd skip="$AOFFSET" count="$ASIZE" \
-				if="$MMS_BASE_DIR/$MMS_FILE" \
+				if="$SXMO_MMS_BASE_DIR/$MMS_FILE" \
 				of="$SXMO_LOGDIR/$LOGDIRNUM/attachments/$OUTFILE" \
 				bs=1 >/dev/null 2>&1
 		fi
@@ -147,7 +146,7 @@ processmms() {
 		TEXT="$(cat "$SXMO_LOGDIR/$LOGDIRNUM/attachments/$MMS_FILE.txt")"
 		rm -f "$SXMO_LOGDIR/$LOGDIRNUM/attachments/$MMS_FILE.txt"
 	else
-		TEXT="<Empty>"
+		TEXT=""
 	fi
 
 	#dbus-send --dest=org.ofono.mms --print-reply "$MESSAGE_PATH" org.ofono.mms.Message.Delete

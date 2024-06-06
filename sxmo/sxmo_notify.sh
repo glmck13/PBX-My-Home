@@ -3,7 +3,7 @@
 . sxmo_common.sh
 
 SENDER="${1:?}"
-TEXT="${2:?}"
+TEXT="${2}"
 ATTACHMENTS="${3}"
 
 if [ "$ATTACHMENTS" ]; then

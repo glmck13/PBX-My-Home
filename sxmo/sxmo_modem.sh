@@ -71,7 +71,7 @@ checkfornewtexts() {
 		if [ "$TEXT" = "--" ]; then
 			stderr "Text from $NUM (TEXTID: $TEXTID) with '--'.  I will assume this is an MMS."
 			printf %b "$TIME\tdebug_mms\t$NUM\t$TEXT\n" >> "$SXMO_LOGDIR/modemlog.tsv"
-			continue
+			#continue
 		fi
 
 		mkdir -p "$SXMO_LOGDIR/$NUM"
