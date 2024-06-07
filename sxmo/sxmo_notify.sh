@@ -6,6 +6,8 @@ SENDER="${1:?}"
 TEXT="${2}"
 ATTACHMENTS="${3}"
 
+[ "$TEXT" -o "$ATTACHMENTS" ] || exit
+
 if [ "$ATTACHMENTS" ]; then
 	IS_MMS=true
 else
