@@ -22,7 +22,7 @@ media_files = []
 if len(distro) > 0 and len(media_urls) > 0:
 
 	for url in media_urls:
-		rsp = requests.get(url)
+		rsp = requests.get(url, verify=False)
 		fname = "{}/{}".format(os.environ.get("SXMO_TMPDIR", "/tmp"), url.split('/')[-1])
 		media_files.append(fname)
 		with open(fname, "wb") as fid:
