@@ -53,4 +53,4 @@ EOF
 
 #cat <<<$NOTIFY >&2
 
-curl -k $SXMO_WEBHOOK -d@- <<<$NOTIFY
+curl -sk $SXMO_WEBHOOK -d@- <<<$NOTIFY

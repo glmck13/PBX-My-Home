@@ -6,6 +6,8 @@ PATH=$PWD:$PATH
 rm -fr $HOME/.sxmo; mkdir -p $HOME/.sxmo/cgi-bin; ln -s $PWD/sxmo_sendapi.py $_/sxmo_sendapi.py
 cd $HOME/.sxmo
 
+exec >sxmo.log 2>&1
+
 export SXMO_MYNUM=$(mmcli -m any -K | grep modem.generic.own-numbers.value | head -n1)
 SXMO_MYNUM=${SXMO_MYNUM#*:} SXMO_MYNUM=${SXMO_MYNUM// /} SXMO_MYNUM=${SXMO_MYNUM#+} SXMO_MYNUM=${SXMO_MYNUM#1}
 export SXMO_MYHTTP="${SXMO_MYHTTP:-http://ubuvaio.lan:8000}"

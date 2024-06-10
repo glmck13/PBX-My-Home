@@ -43,7 +43,7 @@ checkforstucksms() {
 }
 
 checkfornewtexts() {
-	exec 3<> "${XDG_RUNTIME_DIR:-HOME}/sxmo_modem.checkfornewtexts.lock"
+	exec 3<> "${XDG_RUNTIME_DIR:-$HOME}/sxmo_modem.checkfornewtexts.lock"
 	flock -x 3
 	TEXTIDS="$(
 		mmcli -m any --messaging-list-sms |
@@ -79,14 +79,15 @@ checkfornewtexts() {
 		sxmo_smslog.sh "recv" "$NUM" "$NUM" "$TIME" "$TEXT" >> "$SXMO_LOGDIR/$NUM/sms.txt"
 		printf %b "$TIME\trecv_txt\t$NUM\t${#TEXT} chars\n" >> "$SXMO_LOGDIR/modemlog.tsv"
 
-		tries=1
-		while ! mmcli -m any --messaging-delete-sms="$TEXTID";
-		do
-			[ $tries -gt 3 ] && break
-			tries=$((tries+1))
-			echo "Failed to delete text $TEXTID. Will retry"
-			sleep 3
-		done
+		mmcli -m any --messaging-delete-sms="$TEXTID"
+		#tries=1
+		#while ! mmcli -m any --messaging-delete-sms="$TEXTID";
+		#do
+		#	[ $tries -gt 3 ] && break
+		#	tries=$((tries+1))
+		#	echo "Failed to delete text $TEXTID. Will retry"
+		#	sleep 3
+		#done
 
 		sxmo_notify.sh "$NUM" "$TEXT" ""
 	done
