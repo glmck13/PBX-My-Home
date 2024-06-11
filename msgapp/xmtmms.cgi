@@ -7,7 +7,7 @@ print "Content-Type: text/plain\n"
 
 LOCAL_DID=${MSGAPP_DID#+1}
 if [ "${REQUEST_METHOD}" = "PATCH" ]; then
-	MSGAPP_MYURL=$MSGAPP_MYURL/env.cgi
+	MSGAPP_SENDAPI=$MSGAPP_MYURL/env.cgi
 	print "*** TEST MODE ***"
 	TEST_MODE="on"
 else
@@ -154,7 +154,7 @@ fi
 
 for dst in $distro
 do
-	curl -s "${MSGAPP_SENDAPI}" -X POST -u "${MSGAPP_KEY}":"${MSGAPP_SECRET}" -H 'Content-Type: application/vnd.api+json' -d @- <<-EOF 2>&1
+	curl -sk "${MSGAPP_SENDAPI}" -X POST -u "${MSGAPP_KEY}":"${MSGAPP_SECRET}" -H 'Content-Type: application/vnd.api+json' -d @- <<-EOF 2>&1
 	{
 	"data": {
 		"type": "message",
@@ -168,7 +168,6 @@ do
 	}
 	}
 	EOF
-	print "\n"
 	[ "$TEST_MODE" != "on" ] && sleep 1s
 done
 
