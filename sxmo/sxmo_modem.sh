@@ -80,15 +80,6 @@ checkfornewtexts() {
 		printf %b "$TIME\trecv_txt\t$NUM\t${#TEXT} chars\n" >> "$SXMO_LOGDIR/modemlog.tsv"
 
 		mmcli -m any --messaging-delete-sms="$TEXTID"
-		#tries=1
-		#while ! mmcli -m any --messaging-delete-sms="$TEXTID";
-		#do
-		#	[ $tries -gt 3 ] && break
-		#	tries=$((tries+1))
-		#	echo "Failed to delete text $TEXTID. Will retry"
-		#	sleep 3
-		#done
-
 		sxmo_notify.sh "$NUM" "$TEXT" ""
 	done
 }
