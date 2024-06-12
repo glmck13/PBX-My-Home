@@ -25,7 +25,7 @@ else
 fi
 
 # print any attachments
-for attachment in "$SXMO_LOGDIR/$LOGDIRNUM/attachments/${MMSID}".*; do
+for attachment in "$SXMO_LOGDIR/$LOGDIRNUM/attachments/${MMSID}"[.-]*; do
 	[ -f "$attachment" ] && printf "%s\n" "$(basename "$attachment")"
 done
 
