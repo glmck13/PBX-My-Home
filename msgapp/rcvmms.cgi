@@ -49,9 +49,17 @@ mkdir -p $LOCAL_DID; [ ! -h @DID ] && ln -s $LOCAL_DID @DID
 cd $LOCAL_DID; echo $LOCAL_DID >.did
 cd - >/dev/null
 
-tee ../debug/rcv$$.json | parsemms.py | while read -r Did Mime Content
+tee ../debug/rcv$$.json | parsemms.py | while read -r Did Dest Mime Content
 do
 	exec_a2pcmds && continue
+
+	if [ "$Dest" ]; then
+		mkdir -p $Dest
+		cd $Dest; echo $Dest >.did
+		cd - >/dev/null
+	else
+ 		Dest=$LOCAL_DID
+	fi
 
 	mkdir -p $Did
 	cd $Did; echo $Did >.did; >.new
@@ -78,7 +86,7 @@ do
 
 	cd - >/dev/null
 
-	for dir in *$Did* $LOCAL_DID
+	for dir in $Dest
 	do
 		[ "$dir" = "$Did" ] && continue
 

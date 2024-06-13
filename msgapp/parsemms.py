@@ -11,21 +11,27 @@ if what == "message":
 	is_mms = data["is_mms"]
 	body = data["body"]
 
-	did = data["from"]
+	did = data.get("from", "")
 	if did[0:2] == "+1":
-		pass
+		did = did[2:]
 	elif did[0] == "1":
-		did = "+" + did
-	did = did.split("+1")
-	if not did[0]:
 		did = did[1:]
-	did.sort()
-	did = ','.join(did)
+
+	dest = data.get("to", "+1")
+	if dest[0:2] == "+1":
+		pass
+	elif dest[0] == "1":
+		dest = "+" + dest
+	dest = dest.split("+1")
+	if not dest[0]:
+		dest = dest[1:]
+	dest.sort()
+	dest = ','.join(dest)
 
 	if did:
 	    if body:
-	    	print(did, "body/plain", repr(body), sep="\t")
+	    	print(did, dest, "body/plain", repr(body), sep="\t")
 	    if is_mms and "included" in mms:
 	    	for media in mms["included"]:
 	    		media = media["attributes"]
-	    		print(did, media["mime_type"], media["url"], sep="\t")
+	    		print(did, dest, media["mime_type"], media["url"], sep="\t")
