@@ -59,7 +59,7 @@ checkfornewtexts() {
 		printf %b "$TIME\trecv_txt\t$NUM\t${#TEXT} chars\n" >> "$SXMO_LOGDIR/modemlog.tsv"
 
 		mmcli -m any --messaging-delete-sms="$TEXTID"
-		sxmo_notify.sh "$NUM" "$TEXT" ""
+		sxmo_notify.sh "$NUM" "+1${SXMO_MYNUM}" "$TEXT" ""
 	done
 }
 

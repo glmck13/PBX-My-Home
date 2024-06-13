@@ -82,7 +82,7 @@ processmms() {
 			[ -f "$attachment" ] && ATTACHMENTS+="$attachment; "
 		done
 		sxmo_log "ATTACHMENTS: $ATTACHMENTS"
-		sxmo_notify.sh "$SENDER" "$TEXT" "$ATTACHMENTS"
+		sxmo_notify.sh "$SENDER" "$LOGDIRNUM" "$TEXT" "$ATTACHMENTS"
 	fi
 
 }

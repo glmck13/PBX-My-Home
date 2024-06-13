@@ -3,8 +3,9 @@
 . sxmo_common.sh
 
 SENDER="${1:?}"
-TEXT="${2}"
-ATTACHMENTS="${3}"
+DEST="${2:?}"
+TEXT="${3}"
+ATTACHMENTS="${4}"
 
 [ "$TEXT" -o "$ATTACHMENTS" ] || exit
 
@@ -20,6 +21,7 @@ NOTIFY=$(cat - <<-EOF
        "attributes": {
            "body": "$TEXT",
            "from": "$SENDER",
+           "to": "$DEST",
            "is_mms": $IS_MMS
        },
        "type": "message"
