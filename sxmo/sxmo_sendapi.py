@@ -5,6 +5,8 @@ import json
 import requests
 import mimetypes
 import subprocess
+import urllib3
+urllib3.disable_warnings()
 
 print("Content-Type: text/plain\n", flush=True)
 
