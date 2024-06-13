@@ -59,7 +59,7 @@ do
 	Base=rcv:$(uuidgen)
 	ext=$Mime ext=${ext#*/}
 
-	if [[ "$Mime" == *text* ]]; then
+	if [[ "$Mime" == *body* ]]; then
 		ext="txt"
 		Base=$Base.$ext
 		Content=${Content%[\'\"]} Content=${Content#[\'\"]}

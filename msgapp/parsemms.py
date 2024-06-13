@@ -24,7 +24,7 @@ if what == "message":
 
 	if did:
 	    if body:
-	    	print(did, "text/plain", repr(body), sep="\t")
+	    	print(did, "body/plain", repr(body), sep="\t")
 	    if is_mms and "included" in mms:
 	    	for media in mms["included"]:
 	    		media = media["attributes"]
