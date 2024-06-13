@@ -30,13 +30,15 @@ EOF
 
 for attach in $ATTACHMENTS
 do
-	attach=${attach//;/} attach=${attach#*sxmo/}
+	attach=${attach//;/}
+	mime=$(mimetype -bM $attach)
+	attach=$SXMO_MYHTTP/${attach#*sxmo/}
 	NOTIFY+=$(cat - <<-EOF
 
         {
            "attributes": {
-               "mime_type": "application/octet-stream",
-               "url": "$SXMO_MYHTTP/$attach"
+               "mime_type": "$mime",
+               "url": "$attach"
            }
         },
 	EOF
