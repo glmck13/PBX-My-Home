@@ -21,27 +21,6 @@ cleanupnumber() {
 	echo "$1"
 }
 
-checkforstucksms() {
-	stuck_messages="$(mmcli -m any --messaging-list-sms)"
-	if ! echo "$stuck_messages" | grep -q "^No sms messages were found"; then
-		case "$1" in
-			"delete")
-				mmcli -m any --messaging-list-sms | while read -r line; do
-					sms_number="$(echo "$line" | cut -d'/' -f6 | cut -d' ' -f1)"
-					sxmo_log "Deleting sms $sms_number"
-					mmcli -m any --messaging-delete-sms="$sms_number"
-				done
-				;;
-			"view")
-				mmcli -m any --messaging-list-sms | while read -r line; do
-					sms_number="$(echo "$line" | cut -d'/' -f6 | cut -d' ' -f1)"
-					mmcli -m any -s "$sms_number" -K
-				done
-				;;
-		esac
-	fi
-}
-
 checkfornewtexts() {
 	exec 3<> "${XDG_RUNTIME_DIR:-$HOME}/sxmo_modem.checkfornewtexts.lock"
 	flock -x 3

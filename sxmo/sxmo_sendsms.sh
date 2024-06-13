@@ -6,6 +6,8 @@ NUMBER=${1:?}
 TXTFILE=${2:?}
 TXTSIZE=$(stat -c%s "$TXTFILE")
 
+sxmo_log "Send SMS to $NUMBER: $TXTFILE [$TXTSIZE]"
+
 SMSNO=$(mmcli -m any --messaging-create-sms-with-text="$TXTFILE" --messaging-create-sms="number=$NUMBER")
 SMSNO=${SMSNO##*/}
 mmcli -m any -s "$SMSNO" --send --timeout=10

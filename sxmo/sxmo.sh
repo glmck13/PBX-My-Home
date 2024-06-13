@@ -6,7 +6,7 @@ PATH=$PWD:$PATH
 rm -fr $HOME/.sxmo; mkdir -p $HOME/.sxmo/cgi-bin; ln -s $PWD/sxmo_sendapi.py $_/sxmo_sendapi.py
 cd $HOME/.sxmo
 
-exec >sxmo.log 2>&1
+exec >sxmo.console 2>&1
 
 export SXMO_MYNUM=$(mmcli -m any -K | grep modem.generic.own-numbers.value | head -n1)
 SXMO_MYNUM=${SXMO_MYNUM#*:} SXMO_MYNUM=${SXMO_MYNUM// /} SXMO_MYNUM=${SXMO_MYNUM#+} SXMO_MYNUM=${SXMO_MYNUM#1}
@@ -34,7 +34,6 @@ dbus-monitor --system "interface='org.freedesktop.ModemManager1.Modem.Messaging'
 done &
 
 sxmo_poll.sh 300 sxmo_modem.sh checkfornewtexts &
-sxmo_poll.sh 300 sxmo_mms.sh checkforlostmms --force &
 
 MESSAGE=""
 dbus-monitor "interface='org.ofono.mms.Service',type='signal',member='MessageAdded'" "interface='org.ofono.mms.Message',type='signal',member='PropertyChanged'" | while read -r line; do
