@@ -57,7 +57,14 @@ do
 	cd $Did; echo $Did >.did; >.new
 
 	Base=rcv:$(uuidgen)
-	ext=$Mime ext=${ext#*/}
+	case "$Mime" in
+		*text/*)
+			ext="txt"
+			;;
+		*)
+			ext=$Mime ext=${ext#*/}
+			;;
+	esac
 
 	if [[ "$Mime" == *body* ]]; then
 		ext="txt"
