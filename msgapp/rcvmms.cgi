@@ -71,8 +71,7 @@ do
 
 	cd - >/dev/null
 
-	#for dir in *$Did* $LOCAL_DID
-	for dir in $Did $LOCAL_DID
+	for dir in *$Did* $LOCAL_DID
 	do
 		[ "$dir" = "$Did" ] && continue
 
