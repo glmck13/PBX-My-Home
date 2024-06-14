@@ -15,5 +15,4 @@ mmcli -m any --messaging-delete-sms="$SMSNO"
 
 TIME="$(date +%FT%H:%M:%S%z)"
 mkdir -p "$SXMO_LOGDIR/$NUMBER"
-sxmo_smslog.sh "sent" "$NUMBER" "$NUMBER" "$TIME" "$(<$TXTFILE)" >> "$SXMO_LOGDIR/$NUMBER/sms.txt"
 printf "%s\tsent_txt\t%s\t%s chars\n" "$TIME" "$NUMBER" "$TXTSIZE" >> "$SXMO_LOGDIR/modemlog.tsv"

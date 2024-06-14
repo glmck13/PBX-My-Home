@@ -2,10 +2,6 @@
 
 . sxmo_common.sh
 
-stderr() {
-	sxmo_log "$*"
-}
-
 cleanupnumber() {
 	if pnc valid "$1"; then
 		echo "$1"
@@ -36,7 +32,7 @@ checkfornewtexts() {
 		TEXTDATA="$(mmcli -m any -s "$TEXTID" -J)"
 		# SMS with no TEXTID is an SMS WAP (I think). So skip.
 		if [ -z "$TEXTDATA" ]; then
-			stderr "Received an empty SMS (TEXTID: $TEXTID).  I will assume this is an MMS."
+			sxmo_log "Received an empty SMS (TEXTID: $TEXTID).  I will assume this is an MMS."
 			printf %b "$(date +%FT%H:%M:%S%z)\tdebug_mms\tNULL\tEMPTY (TEXTID: $TEXTID)\n" >> "$SXMO_LOGDIR/modemlog.tsv"
 			continue
 		fi
@@ -48,14 +44,13 @@ checkfornewtexts() {
 		TIME="$(date +%FT%H:%M:%S%z -d "$TIME")"
 
 		if [ "$TEXT" = "--" ]; then
-			stderr "Text from $NUM (TEXTID: $TEXTID) with '--'.  I will assume this is an MMS."
+			sxmo_log "Text from $NUM (TEXTID: $TEXTID) with '--'.  I will assume this is an MMS."
 			printf %b "$TIME\tdebug_mms\t$NUM\t$TEXT\n" >> "$SXMO_LOGDIR/modemlog.tsv"
 			#continue
 		fi
 
 		mkdir -p "$SXMO_LOGDIR/$NUM"
-		stderr "Text from number: $NUM (TEXTID: $TEXTID)"
-		sxmo_smslog.sh "recv" "$NUM" "$NUM" "$TIME" "$TEXT" >> "$SXMO_LOGDIR/$NUM/sms.txt"
+		sxmo_log "Text from number: $NUM (TEXTID: $TEXTID)"
 		printf %b "$TIME\trecv_txt\t$NUM\t${#TEXT} chars\n" >> "$SXMO_LOGDIR/modemlog.tsv"
 
 		mmcli -m any --messaging-delete-sms="$TEXTID"

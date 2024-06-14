@@ -53,8 +53,6 @@ processmms() {
 	[ -z "$MYNUM" ] && MYNUM="+12345670000"
 
 	SENDER="$(printf %s "$MESSAGE" | jq -r '.attrs.Sender')" # note this will be null if I am the sender
-	sxmo_debug "SENDER: $SENDER MYNUM: $MYNUM RECIPIENTS: $RECIPIENTS"
-	sxmo_debug "MESSAGE: $MESSAGE"
 	[ "$SENDER" = "null" ] && SENDER="$MYNUM"
 
 	# Generates a unique LOGDIRNUM: all the recipients, plus the sender, minus you
@@ -74,7 +72,6 @@ processmms() {
 	mmsctl -D -o "$MESSAGE_PATH"
 
 	printf "%s\t%s_mms\t%s\t%s\n" "$DATE" "$STATUS" "$LOGDIRNUM" "$MMS_FILE" >> "$SXMO_LOGDIR/modemlog.tsv"
-	sxmo_smslog.sh "$STATUS" "$LOGDIRNUM" "$SENDER" "$DATE" "$TEXT" "$MMS_FILE" >> "$SXMO_LOGDIR/$LOGDIRNUM/sms.txt"
 
 	if [ "$STATUS" = "received" ]; then
 		ATTACHMENTS=""
