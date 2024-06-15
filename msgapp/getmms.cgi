@@ -14,7 +14,7 @@ Contacts=$(urlencode -d "$QUERY_STRING")
 cat - <<EOF
 <style>
 blockquote {
-  margin-left: 40%;
+  margin-left: 50%;
 }
 .theirChat {
     background: lightgrey;
