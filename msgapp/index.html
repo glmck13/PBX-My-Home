@@ -13,7 +13,7 @@ body {
 <body>
 <main>
 
-<div class="flex three">
+<div class="flex two">
 
 <div>
 <label id="pic" class="dropimage"><input id="drop" type="file" onchange="idle_timer=0; load_image(event);"></label>
@@ -23,14 +23,13 @@ body {
 <button class="miniButton error" onclick="idle_timer=0; if (confirm('Are you sure you want to delete these messages/numbers?')) del_conversation();">Delete</button>
 <button class="miniButton" onclick="idle_timer=0; pic.removeAttribute('style'); drop.value=''; picURL=''; words.value=''; cmdlog.innerHTML=''; contacts.value=''; get_conversation();">Home</button>
 <label><input id=demo type="checkbox"><span class="checkable">Test Mode</span></label>
+<div>
+<pre id="cmdlog" style="font-size: 0.75em;"></pre>
+</div>
 </div>
 
 <div>
 <div id="conversation"></div>
-</div>
-
-<div>
-<pre id="cmdlog"></pre>
 </div>
 
 </div>
