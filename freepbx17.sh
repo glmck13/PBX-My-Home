@@ -25,9 +25,9 @@ fi
 # Install Asterisk
 #
 cd /usr/src
-wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-20-current.tar.gz
-tar xvf asterisk-20-current.tar.gz
-cd asterisk-20*/
+wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-22-current.tar.gz
+tar xvf asterisk-22-current.tar.gz
+cd asterisk-22*/
 contrib/scripts/get_mp3_source.sh
 contrib/scripts/install_prereq install
 ./configure --libdir=/usr/lib64 --with-pjproject-bundled --with-jansson-bundled
