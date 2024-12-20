@@ -1,4 +1,4 @@
-fallocate -l 1G /swapfile 
+dd if=/dev/zero of=/swapfile bs=1M count=3072
 chmod 600 /swapfile 
 mkswap /swapfile 
 swapon /swapfile 
