@@ -1,0 +1,6 @@
+Channel: PJSIP/XXXXXXXXXX@PSTN
+Context: app-echo-test
+Extension: *43
+Priority: 1
+#Application: Playback
+#Data: hello-world
