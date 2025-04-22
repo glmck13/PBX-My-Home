@@ -1,0 +1,11 @@
+--- ../Browser-Phone-master/Phone/index.html	2023-11-28 09:11:48.000000000 -0500
++++ phone.shtml	2023-12-05 06:22:09.030384644 -0500
+@@ -45,0 +46,4 @@
++        <script>
++        var weTubeUser = "<!--#echo var="REMOTE_USER" -->";
++        </script>
++        <script type="text/javascript" src="wetube.js"></script>
+@@ -177 +181 @@
+-</html>
+\ No newline at end of file
++</html>

@@ -1,0 +1,24 @@
+--- index.shtml	2024-11-13 13:37:15.074328628 -0500
++++ /home/gerry/Downloads/Browser-Phone-master/Phone/index.html	2024-09-21 13:01:07.000000000 -0400
+@@ -47,17 +46,0 @@
+-                forceServer = window.location.hostname;
+-                [forceUser, forceExt, forceToken] = window.location.search.slice(1).split(',');
+-                forceValidate = "<!--#exec cmd="$PWD/token.sh" -->";
+-                if (forceToken == forceValidate) {
+-                        var initDB = window.localStorage;
+-                        initDB.setItem("wssServer", forceServer);
+-                        initDB.setItem("WebSocketPort", "8089");
+-                        initDB.setItem("ServerPath", "/ws");
+-                        initDB.setItem("profileName", forceUser);
+-                        initDB.setItem("SipDomain",forceServer);
+-                        initDB.setItem("SipUsername", forceExt);
+-                        initDB.setItem("SipPassword", "789889");
+-                        initDB.setItem("VoiceMailSubscribe", "0");
+-                        initDB.setItem("profileUser", forceExt);
+-                }
+-        </script>
+-        <script type="text/javascript">
+@@ -194 +177 @@
+-</html>
++</html>
+\ No newline at end of file

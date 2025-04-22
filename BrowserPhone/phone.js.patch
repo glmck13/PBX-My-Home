@@ -1,0 +1,35 @@
+--- phone.js	2023-12-05 06:22:08.454372345 -0500
++++ ../Browser-Phone-master/Phone/phone.js	2023-11-28 09:11:48.000000000 -0500
+@@ -111 +111 @@
+-let IceStunServerJson = getDbItem("IceStunServerJson", '[{ "urls": "stun:3.140.225.26:3478" }]'); // Sets the JSON string for ice Server. Default: [{ "urls": "stun:stun.l.google.com:19302" }] Must be https://developer.mozilla.org/en-US/docs/Web/API/RTCConfiguration/iceServers
++let IceStunServerJson = getDbItem("IceStunServerJson", "");                            // Sets the JSON string for ice Server. Default: [{ "urls": "stun:stun.l.google.com:19302" }] Must be https://developer.mozilla.org/en-US/docs/Web/API/RTCConfiguration/iceServers
+@@ -9720,3 +9720,3 @@
+-                                    item.MobileNumber,
+-                                    item.ContactNumber1,
+-                                    item.ContactNumber2, 
++                                    "", 
++                                    "", 
++                                    "", 
+@@ -9724,2 +9724,2 @@
+-                                    item.Description,
+-                                    item.Email,
++                                    "", 
++                                    "", 
+@@ -12036,5 +12036 @@
+-            if(localDB.getItem("profileUserID") == null) {
+-                localDB.setItem("profileUserID", uID()); // For first time only
+-                profileUserID = getDbItem("profileUserID", null);
+-                InitGlobalBuddies();
+-            }
++            if(localDB.getItem("profileUserID") == null) localDB.setItem("profileUserID", uID()); // For first time only
+@@ -14682,2 +14678 @@
+-        // XmppSetMyPresence(getDbItem("XmppLastPresence", "chat"), getDbItem("XmppLastStatus", ""), true);
+-        XmppSetMyPresence(getDbItem("XmppLastPresence", "chat"), getDbItem("XmppLastStatus", "Available"), true);
++        XmppSetMyPresence(getDbItem("XmppLastPresence", "chat"), getDbItem("XmppLastStatus", ""), true);
+@@ -14846 +14841 @@
+-                        // buddyObj.MobileNumber = cell.textContent;
++                        buddyObj.MobileNumber = cell.textContent;
+@@ -15334 +15329 @@
+-}
++}
+\ No newline at end of file
