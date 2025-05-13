@@ -3,7 +3,6 @@ There’s an excellent [WebRTC SIP client for the browser written by Conrad de W
 
 ## Configuring FreePBX & Asterisk
 The Asterisk help documentation got me most of the way there, but unfortunately omitted some key settings.  After combining tidbits from the following sites, I managed to get things working:
-+ [WebRTC tutorial using SIPML5, Rusty Newton, Jul 3, 2018](https://wiki.asterisk.org/wiki/pages/viewpage.action?pageId=40818097)
 + [Freepbx Failed to create fingerprint from the digest, Aug 2022](https://community.freepbx.org/t/freepbx-failed-to-create-fingerprint-from-the-digest/85205)
 + [WebRTC configuration by VoIPmonitor, Aug 7, 2020](https://www.voipmonitor.org/doc/WebRTC)
 + [Setting up Asterisk for webrtc, 2022, Rajan Paneru](https://gist.github.com/paneru-rajan/01f73e3ec79c2b7a647824e76b901de8)
