@@ -8,12 +8,13 @@ apt-get upgrade
 apt -y install build-essential git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev libjansson-dev libxml2-dev uuid-dev default-libmysqlclient-dev htop sngrep lame ffmpeg mpg123
 apt -y install git vim curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev expect
 
-apt install -y build-essential linux-headers-`uname -r` openssh-server apache2 mariadb-server mariadb-client bison flex php8.2 php8.2-curl php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-mbstring php8.2-intl php8.2-xml php-pear curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev odbc-mariadb libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python-dev-is-python3 unixodbc vim wget libjansson-dev software-properties-common nodejs npm ipset iptables fail2ban php-soap
+apt install -y build-essential linux-headers-`uname -r` openssh-server apache2 mariadb-server mariadb-client bison flex php8.2 php8.2-curl php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-mbstring php8.2-intl php8.2-xml php-pear curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev odbc-mariadb libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python-dev-is-python3 unixodbc vim wget libjansson-dev software-properties-common nodejs npm ipset php-soap
 
 #
 # Add extras
 #
-apt install cron iptables-persistent coturn
+#apt install iptables-persistent iptables fail2ban
+apt install cron coturn
 
 echo -n "Reboot (y/n)? "; read x
 if [ "$x" = "y" ]; then
@@ -121,22 +122,22 @@ systemctl enable freepbx
 #
 # Configure firewall
 #
-cat - <<EOF >/etc/iptables/rules.v4
-*filter
-:INPUT DROP [0:0]
--A INPUT -i lo -j ACCEPT
--A INPUT -p tcp -m tcp --tcp-flags ACK ACK -j ACCEPT
--A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
--A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
-# SSH, HTTP & SIP CLIENTS
-# -A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
-# FLOWROUTE
--A INPUT -s 34.226.36.32/28 -j ACCEPT
--A INPUT -s 34.210.91.112/28 -j ACCEPT
-# Private (LAN) IP Addresses
--A INPUT -s 10.0.0.0/8 -j ACCEPT
--A INPUT -s 127.0.0.0/8 -j ACCEPT
--A INPUT -s 172.16.0.0/12 -j ACCEPT
--A INPUT -s 192.168.0.0/16 -j ACCEPT
-COMMIT
-EOF
+#cat - <<EOF >/etc/iptables/rules.v4
+#*filter
+#:INPUT DROP [0:0]
+#-A INPUT -i lo -j ACCEPT
+#-A INPUT -p tcp -m tcp --tcp-flags ACK ACK -j ACCEPT
+#-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+#-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+## SSH, HTTP & SIP CLIENTS
+## -A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
+## FLOWROUTE
+#-A INPUT -s 34.226.36.32/28 -j ACCEPT
+#-A INPUT -s 34.210.91.112/28 -j ACCEPT
+## Private (LAN) IP Addresses
+#-A INPUT -s 10.0.0.0/8 -j ACCEPT
+#-A INPUT -s 127.0.0.0/8 -j ACCEPT
+#-A INPUT -s 172.16.0.0/12 -j ACCEPT
+#-A INPUT -s 192.168.0.0/16 -j ACCEPT
+#COMMIT
+#EOF
