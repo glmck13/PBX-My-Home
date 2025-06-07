@@ -5,10 +5,11 @@ Although I’m a big fan of AWS LightSail, I recently found out about Vultr, a c
 We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https://www.freepbx.org/) on a vanilla version of Debian 12.  Before spinning up the server, follow Vultr's instructions for creating [SSH keys](https://docs.vultr.com/how-do-i-generate-ssh-keys) and [firewall rules](https://docs.vultr.com/vultr-firewall).  Here are the rules for the firewall (for now we’re going to stick with IPv4, since the various IPv6 SIP implementations of FreePBX and Asterisk still claim to be somewhat buggy):  
 + accept	SSH	22	0.0.0.0/0	
 + accept	TCP (HTTP)	80	0.0.0.0/0	
-+ accept	TCP	3478	0.0.0.0/0	
-+ accept	UDP	3478	0.0.0.0/0	
-+ accept	UDP	5060	0.0.0.0/0	
-+ accept	UDP	10000 – 20000	0.0.0.0/0	
++ accept	TCP	3478	0.0.0.0/0	: Coturn
++ accept	UDP	3478	0.0.0.0/0	: Coturn
++ accept	UDP	5060	0.0.0.0/0	: SIP over UDP
++ accept TCP 8089 0.0.0.0/0: SIP over websocket
++ accept	UDP	10000 – 20000	0.0.0.0/0
 + drop	any	0 - 65535	0.0.0.0/0	(default)
 
 Don’t worry about exposing the ports to every IP address; we’re going to add IP address restrictions on the server using iptables.
@@ -39,7 +40,8 @@ Now launch the script.  You’ll run the script twice.  The first time through t
 
 Apply the following additional patches:
 
-+ [freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb](https://community.freepbx.org/t/freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb/93933)
++ [freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb](https://community.freepbx.org/t/freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb/93933) Only apply this if you see errors in your log
++ Comment-out "#syslog" in /etc/turnserver.conf
 
 You can now proceed with setting up FreePBX.  
 
