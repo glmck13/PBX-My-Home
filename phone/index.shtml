@@ -1,0 +1,250 @@
+<html>
+
+<head>
+<link rel="stylesheet" href="picnic.min.css">
+</head>
+
+<body>
+
+<div id="dialer" style='display: none;'>
+
+<table>
+
+<tr>
+<td><div id="picture"></div></td>
+<td><div id="context"></div></td>
+</tr>
+
+<tr>
+<td colspan=2>
+<!--#include virtual="phonebook.html" -->
+</td>
+</tr>
+
+<tr>
+<td colspan=2>
+<button id="callButton">Call</button>
+<button id="answerButton">Answer</button>
+<button id="hangupButton">Hangup</button>
+</td>
+</tr>
+
+</table>
+</div>
+
+<div id="keypad" style='display: none;'>
+<button id="key_1"     class="warning shybutton">1</button>
+<button id="key_2"     class="warning shybutton">2</button>
+<button id="key_3"     class="warning shybutton">3</button>
+<br>
+<button id="key_4"     class="warning shybutton">4</button>
+<button id="key_5"     class="warning shybutton">5</button>
+<button id="key_6"     class="warning shybutton">6</button>
+<br>
+<button id="key_7"     class="warning shybutton">7</button>
+<button id="key_8"     class="warning shybutton">8</button>
+<button id="key_9"     class="warning shybutton">9</button>
+<br>
+<button id="key_star"  class="warning shybutton">*</button>
+<button id="key_0"     class="warning shybutton">0</button>
+<button id="key_pound" class="warning shybutton">#</button>
+</div>
+
+<div id="videoPlayers" style='display: none;'>
+<video id="localVideo" width="300px" autoplay></video>
+<br><br>
+<video id="remoteVideo" width="300px" autoplay></video>
+</div>
+
+<script src="sip.min.js"></script>
+
+<script type="module">
+    var params = new URLSearchParams(window.location.search);
+    var mode = params.get("mode");
+    var user = params.get("user");
+    var secret = params.get("secret");
+    var ext = null;
+    if (!mode) mode = "audio";
+
+    let options = phonebook.options;
+    let match = "User: " + user;
+    for (let i = 0; i < options.length; i++) {
+	let entry = options[i];
+        if (entry.text == match) {
+            ext = entry.value;
+            break;
+        }
+    }
+
+    function flipMode () {
+        location = location.href.split('?')[0] + '?user=' + user + '&secret=' + secret + '&mode=' + ((mode == 'audio') ? 'video' : 'audio');
+    }
+
+    if (mode && ext && secret) {
+
+    dialer.style.display = "block"
+    const server = "cloudpbx.mckblog.net";
+    picture.innerHTML = '<img width=120 src=' + mode + '.svg>'
+    context.innerHTML = '<p><span style="font-size: 150%;">' + 'User: ' + user + '<br>' + 'Mode: ' + mode + '</span><br>' + '<button id="modeButton" style="background:dodgerblue;">Switch Mode</button>' + '</p>';
+    modeButton.addEventListener("click", flipMode);
+    const endpoint = "wss://" + server + ":8089/ws";
+    const aor = "sip:" + ext + "@" + server;
+
+    let options = null;
+
+    if (mode == "video") {
+        videoPlayers.style.display = "block"
+        options = {
+            aor: aor,
+            media: {
+                constraints: {
+                    audio: true,
+                    video: true
+                },
+                local: {
+                    video: localVideo
+                },
+                remote: {
+                    video: remoteVideo
+                }
+            },
+            userAgentOptions: {
+                authorizationPassword: secret
+            }
+        }
+    }
+    else {
+        const remoteAudio = new Audio();
+        remoteAudio.autoplay = true;
+
+        options = {
+            aor: aor,
+            media: {
+                remote: {
+                    audio: remoteAudio
+                }
+            },
+            userAgentOptions: {
+                authorizationPassword: secret
+            }
+        }
+    }
+
+    const simpleUser = new SIP.Web.SimpleUser(endpoint, options);
+
+    const ringElement = new Audio();
+    ringElement.loop = true;
+
+    simpleUser.delegate = {
+        onCallAnswered: () => {
+            setButtons([0,0,1]);
+            ringElement.pause();
+            localVideo.controls = true;
+            remoteVideo.controls = true;
+            if (mode == "audio") {
+                keypad.style.display = "block";
+            }
+        },
+        onCallHangup: () => {
+            setButtons([0,0,0]);
+            ringElement.pause();
+            localVideo.controls = false;
+            remoteVideo.controls = false;
+            if (mode == "audio") {
+                keypad.style.display = "none";
+            }
+        },
+        onCallReceived: async () => {
+            setButtons([0,1,1]);
+            ringElement.src = "ringtone.mp3";
+            ringElement.load();
+            ringElement.play();
+        }
+    };
+
+    let buttons = [callButton, answerButton, hangupButton];
+    function setButtons(buttonState) {
+        var n, s, b;
+        n = 0;
+        for (s of buttonState) {
+            b = buttons[n]
+            if (s) {
+                b.style.background = "chartreuse";
+                b.style.color = "black";
+            }
+            else {
+                b.style.background = "dodgerblue";
+                b.style.color = "white";
+            }
+            n += 1;
+        }
+    }
+
+    function placeCall () {
+            console.log(`Calling ${destination.value}`);
+            setButtons([1,0,1]);
+            ringElement.src = "calltone.mp3";
+            ringElement.load();
+            ringElement.play();
+            simpleUser
+                    .call("sip:" + destination.value + '@' + server, {
+                    inviteWithoutSdp: false
+            })
+                    .catch((error) => {
+                    console.error(`[${simpleUser.id}] failed to place call`);
+                    console.error(error);
+                    alert("Failed to place call.\n" + error);
+            });
+    }
+    callButton.addEventListener("click", placeCall);
+
+    function hangupCall () {
+            setButtons([0,0,0]);
+            simpleUser.hangup().catch((error) => {
+                    console.error(`[${simpleUser.id}] failed to hangup call`);
+                    console.error(error);
+                    alert("Failed to hangup call.\n" + error);
+            });
+    }
+    hangupButton.addEventListener("click", hangupCall);
+
+    function answerCall () {
+            setButtons([0,0,1]);
+            simpleUser.answer().catch((error) => {
+                    console.error(`[${simpleUser.id}] failed to answer call`);
+                    console.error(error);
+                    alert("Failed to answer call.\n" + error);
+            });
+    }
+    answerButton.addEventListener("click", answerCall);
+
+    setButtons([0,0,0]);
+    await simpleUser.connect();
+    await simpleUser.register();
+
+    const dtmfElement = new Audio();
+    function playDTMF (digit) {
+        dtmfElement.src = "dtmf/" + digit + ".mp3";
+        dtmfElement.load();
+        dtmfElement.play();
+    }
+
+    key_1.addEventListener('click',() => {simpleUser.sendDTMF('1'); playDTMF('1')});
+    key_2.addEventListener('click',() => {simpleUser.sendDTMF('2'); playDTMF('2')});
+    key_3.addEventListener('click',() => {simpleUser.sendDTMF('3'); playDTMF('3')});
+    key_4.addEventListener('click',() => {simpleUser.sendDTMF('4'); playDTMF('4')});
+    key_5.addEventListener('click',() => {simpleUser.sendDTMF('5'); playDTMF('5')});
+    key_6.addEventListener('click',() => {simpleUser.sendDTMF('6'); playDTMF('6')});
+    key_7.addEventListener('click',() => {simpleUser.sendDTMF('7'); playDTMF('7')});
+    key_8.addEventListener('click',() => {simpleUser.sendDTMF('8'); playDTMF('8')});
+    key_9.addEventListener('click',() => {simpleUser.sendDTMF('9'); playDTMF('9')});
+    key_0.addEventListener('click',() => {simpleUser.sendDTMF('0'); playDTMF('0')});
+    key_star.addEventListener('click',() => {simpleUser.sendDTMF('*'); playDTMF('star')});
+    key_pound.addEventListener('click',() => {simpleUser.sendDTMF('#'); playDTMF('pound')});
+
+    }
+</script>
+
+</body>
+
+</html>
