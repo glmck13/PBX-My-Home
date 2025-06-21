@@ -63,18 +63,21 @@
     var mode = params.get("mode");
     var user = params.get("user");
     var secret = params.get("secret");
-    var ext = null;
+    var ext = params.get("ext");
     if (!mode) mode = "audio";
 
-    let options = phonebook.options;
-    let match = "User: " + user;
-    for (let i = 0; i < options.length; i++) {
-	let entry = options[i];
-        if (entry.text == match) {
-            ext = entry.value;
-            break;
+    if (!ext) {
+        let options = phonebook.options;
+        let match = "User: " + user;
+        for (let i = 0; i < options.length; i++) {
+    	let entry = options[i];
+            if (entry.text == match) {
+                ext = entry.value;
+                break;
+            }
         }
     }
+    else user = ext;
 
     function flipMode () {
         location = location.href.split('?')[0] + '?user=' + user + '&secret=' + secret + '&mode=' + ((mode == 'audio') ? 'video' : 'audio');
