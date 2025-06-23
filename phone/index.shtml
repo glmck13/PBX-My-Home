@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="picnic.min.css">
 </head>
 
-<body>
+<body style="background-color: whitesmoke;">
 
 <div id="dialer" style='display: none;'>
 
