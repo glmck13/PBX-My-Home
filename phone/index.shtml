@@ -15,9 +15,16 @@
 <td><div id="context"></div></td>
 </tr>
 
+<tr></tr>
 <tr>
 <td colspan=2>
-<!--#include virtual="phonebook.html" -->
+<p style="text-align: center; font-size: 100%; font-style: italic;">For a full-fledged calling app try <a href="https://www.linphone.org/en/homepage-linphone/" target="_blank">Linphone</a>.<br>It's free, and runs on both mobile devices and desktops.<br>Click <a href="linphone.shtml" target="_blank">here</a> to get started.</p>
+</td>
+</tr>
+
+<tr>
+<td colspan=2>
+<!--#include virtual="contacts-browser.html" -->
 </td>
 </tr>
 
@@ -67,8 +74,8 @@
     if (!mode) mode = "audio";
 
     if (!ext) {
-        let options = phonebook.options;
-        let match = "User: " + user;
+        let options = contacts.options;
+        let match = "Browser: " + user;
         for (let i = 0; i < options.length; i++) {
     	let entry = options[i];
             if (entry.text == match) {

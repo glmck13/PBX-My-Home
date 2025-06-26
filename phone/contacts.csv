@@ -1,0 +1,6 @@
+Destination,Type,Extension
+Time Check (audio only),System,*60
+Echo Test (audio only),System,*43
+Conference Room #1 (audio only),System,8001
+test,Browser,7000
+test,Linphone,6000

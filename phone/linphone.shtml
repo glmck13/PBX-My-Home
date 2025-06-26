@@ -1,0 +1,21 @@
+<html>
+<head>
+<link rel="stylesheet" href="picnic.min.css">
+<title>Getting started with Linphone</title>
+</head>
+<body style="background-color: whitesmoke;">
+
+<h1>Why Linphone?</h1>
+As you can tell, the browser calling app is pretty primitive. Nonetheless, it should work fine if you're just making audio calls, but video calls aren't as reliable. &#x1F641; Thankfully, there's an app called Linphone that provides a much better calling experience. The app is free, and runs on every major device and operating system.
+
+<h1>Installing the software</h1>
+For desktop environments (Windows, Mac, Linux), you can get Linphone from the vendor's <a href="https://www.linphone.org/en/download/">download site</a>.  For mobile devices (iOS, Android), Linphone is available in the phone's app store.  When you launch the software for the first time you'll see a welcome screen.  Just click 'Skip' in the upper left corner to proceed. On the next screen you'll be prompted for a username and password. Don't enter anything. Instead, click on the button labeled "Third-party SIP account". Then on the next screen click "I understand": <br><img width="300px" src="linphone-1.png"><img width="300px" src="linphone-2.png"><img width="300px" src="linphone-3.png">
+
+<h1>Configuring your extension</h1>
+On the next screen you'll enter your account credentials &ndash; i.e. username and password &ndash; on the SIP server.  (The SIP server is a private, cloud-based virtual machine dedicated strictly for making audio/video calls among our Lynch group.) These credentials can be found in the welcome email you received when you initially registered on the Lynch roster.  Note that your "username" on the SIP server is actually a 4-digit phone number extension!  Next you'll enter the domain name for the server: <span style="font-style: italic;">cloudpbx.mckblog.net</span>.  Your "Display name" can be anything.  Lastly, set the "Transport" value to "TLS", and click the "Connection" button.  If all goes well you'll receive a screen asking you to download the H264 codec.  Click "Confirm".  That's it!  You're now ready to place calls! <br><img width="300px" src="linphone-4.png"><img width="300px" src="linphone-5.png"><img width="300px" src="linphone-6.png">
+
+<h1>Making a test call</h1>
+<!--#include virtual="contacts-linphone.html" -->
+</body>
+<p>&nbsp;</p>
+</html>
