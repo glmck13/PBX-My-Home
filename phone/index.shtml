@@ -61,6 +61,7 @@
 <video id="localVideo" width="300px" autoplay></video>
 <br><br>
 <video id="remoteVideo" width="300px" autoplay></video>
+<br><br>
 </div>
 
 <script src="sip.min.js"></script>
