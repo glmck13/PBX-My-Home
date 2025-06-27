@@ -18,7 +18,7 @@ echo '<input class="stack" type="text" id="destination" value="*60">'
 
 (
 echo '<table>'
-echo '<caption align="top" style="font-weight: bold; font-size: 150%;"">PBX Extensions</caption>'
+echo '<caption align="top" style="font-weight: bold; font-size: 150%;""></caption>'
 echo '<tr><th>Destination</th><th>Extension</th></tr>'
 while IFS="," read dest type ext
 do
