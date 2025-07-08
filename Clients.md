@@ -35,3 +35,14 @@ After installing the software on your desktop, access the “Account Assistant�
 Click “USE”.  
 
 Go back to the Linphone home screen, enter *60 in the search field, and hit enter.  If all goes well you’ll be connected to the "current time" application on your FreePBX server!
+
+### Update
+You can also configure Linphone to use TLS for SIP connections.  There are a few additional config changes you need for this.  
+
+On the server side:
++ Enable/forward port 5061 in your FreePBX/Asterisk firewall
++ Enable TLS transport under SIP Settings
++ If necessary, also configure the SSL Method to tlsv1_2 or higher under SIP Settings
+
+On the client side:
++ In case you have problems authenticating with the PBX, you may need to update Linphone's rootca.pem file with the cert of the CA that issued your PBX cert.  This file is stored under /usr/share/linphone.  If you're using an AppImage, you'll first need to extract the AppImage and then update the copy of the file stored locally.
