@@ -1,6 +1,6 @@
 # PBX-My-Home
 [https://pbxmyhome.mckblog.net](https://pbxmyhome.mckblog.net)  
-[![Watch the video](https://pbxmyhome.mckblog.net/wp-content/uploads/2024/02/pbxmyhome.png)](https://pbxmyhome.mckblog.net/wp-content/uploads/2024/02/pbxnew.mp4)
+[![Watch the video](https://pbxmyhome.mckblog.net/wp-content/uploads/2024/02/pbxmyhome.png)](https://youtu.be/9_4tVUqBJWU)
 
 # Installation
 Installation consists of 3 steps:
