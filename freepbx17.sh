@@ -5,16 +5,12 @@
 #
 apt-get update
 apt-get upgrade
-apt -y install build-essential git curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev libjansson-dev libxml2-dev uuid-dev default-libmysqlclient-dev htop sngrep lame ffmpeg mpg123
-apt -y install git vim curl wget libnewt-dev libssl-dev libncurses5-dev subversion libsqlite3-dev build-essential libjansson-dev libxml2-dev uuid-dev expect
-
-apt install -y build-essential linux-headers-`uname -r` openssh-server apache2 mariadb-server mariadb-client bison flex php8.2 php8.2-curl php8.2-cli php8.2-common php8.2-mysql php8.2-gd php8.2-mbstring php8.2-intl php8.2-xml php-pear curl sox libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3 libsqlite3-dev pkg-config automake libtool autoconf git unixodbc-dev uuid uuid-dev libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev odbc-mariadb libical-dev libneon27-dev libsrtp2-dev libspandsp-dev sudo subversion libtool-bin python-dev-is-python3 unixodbc vim wget libjansson-dev software-properties-common nodejs npm ipset php-soap
+apt install default-libmysqlclient-dev expect ffmpeg htop ipset lame libasound2-dev libcurl4-openssl-dev libical-dev libicu-dev libjansson-dev libncurses5-dev libneon27-dev libnewt-dev libogg-dev libspandsp-dev libsqlite3-dev libsrtp2-dev libssl-dev libtool-bin libvorbis-dev libxml2-dev linux-headers-`uname -r` mariadb-client mariadb-server mpg123 nodejs npm odbc-mariadb php-pear php-soap php8.2 php8.2-cli php8.2-common php8.2-curl php8.2-gd php8.2-intl php8.2-mbstring php8.2-mysql php8.2-xml python-dev-is-python3 sngrep software-properties-common sox sqlite3 subversion unixodbc unixodbc-dev uuid uuid-dev
 
 #
 # Add extras
 #
-#apt install iptables-persistent iptables fail2ban
-apt install cron coturn
+apt install coturn iptables-persistent
 
 echo -n "Reboot (y/n)? "; read x
 if [ "$x" = "y" ]; then
