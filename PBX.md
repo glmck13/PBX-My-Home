@@ -65,7 +65,7 @@ Settings &rarr; Asterisk SIP Settings
 
 + General tab:
   + NAT Settings: ***Detect Network Settings***
-  + RTP Timeout: ***set to 0 for SIP.js***
+  + RTP Timeout: ***set to '0' for SIP.js***
   + Video Support: ***Enabled***
  
 + SIP Settings [chan_pjsip] tab:
