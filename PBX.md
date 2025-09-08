@@ -8,6 +8,7 @@ We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https:
 + accept	TCP	3478	0.0.0.0/0	: Coturn
 + accept	UDP	3478	0.0.0.0/0	: Coturn
 + accept	UDP	5060	0.0.0.0/0	: SIP over UDP
++ accept	TCP	5060	0.0.0.0/0	: SIP over TCP
 + accept TCP 8089 0.0.0.0/0: SIP over websocket
 + accept	UDP	10000 – 20000	0.0.0.0/0
 + drop	any	0 - 65535	0.0.0.0/0	(default)
@@ -25,9 +26,6 @@ Select the SSH keys and Firewall Group you created earlier, enter a hostname for
 
 ## Install Asterisk and FreePBX
 
-### Update! April, 2024
-I just found [this installaton script from Sangoma](https://github.com/FreePBX/sng_freepbx_debian_install).  I'll test it out and see whether it can replace the installation script posted in this repo. I'd much rather use something that's published and maintained by Sangoma! :-)
-
 Once your server is running, download and scp the freepbx17.sh script from this repository onto the root account on your server.  The script is based on the [instructions posted on Sangoma’s website](https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682545/How+to+Install+FreePBX+17+on+Debian+12+with+Asterisk+20) for downloading and installing the latest versions of Asterisk and FreePBX 17 on Debian.  Before running the script, make sure to update the file with the IP address of the broadband router in your home.  Edit the file and look for the line at the end that reads:
 ```
  # -A INPUT -s XXX.XXX.XXX.XXX -j ACCEPT
@@ -40,7 +38,6 @@ Now launch the script.  You’ll run the script twice.  The first time through t
 
 Apply the following additional patches:
 
-+ [freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb](https://community.freepbx.org/t/freepbx-17-on-debian-12-ipv6-port-binding-for-mariadb/93933) Only apply this if you see errors in your log
 + Comment-out "#syslog" in /etc/turnserver.conf
 
 You can now proceed with setting up FreePBX.  
@@ -50,6 +47,36 @@ For those of you who have a Raspberry Pi 4 laying around, and wanted to repurpos
 
 ## Configure FreePBX
 Access the FreePBX console from your browser using the IP address of the server, complete the initial startup screens, then proceed with the configuration steps below. Hold off clicking the red “Apply Config” button at the top until you’re finished submitting all the changes.
+
+### Upload SSL Certificate (needed for TLS/WSS transport)
+Admin &rarr; Certificate Management
+
++ New Certificate &rarr; Upload Certificate:
+  + Name: ***Your certificate name***
+  + Description: ***Your certificate name***
+  + Private Key: ***Copy/paste PEM file for private key***
+  + Certificate: ***Copy/paste PEM file for cert***
+  + Trusted Chain: ***Copy/paste PEM file for CA chain***
+ 
+Click "Generate Certificate".  Return to the main Certificate Magement window, and set your new cert as the "Default" by clicking inside the cell under that column header
+
+### Configure SIP
+Settings &rarr; Asterisk SIP Settings
+
++ General tab:
+  + NAT Settings: ***Detect Network Settings***
+  + RTP Timeout: ***set to 0 for SIP.js***
+  + Video Support: ***Enabled***
+ 
++ SIP Settings [chan_pjsip] tab:
+  + Certificate Manager: ***Your certificate name***
+  + SSL Method: ***tlsv1_2***
+  + udp transport: ***Yes***
+  + tcp transport: ***Yes***
+  + tls transport: ***Yes***
+  + wss transport: ***Yes***
+ 
+Click “Submit”
 
 ### Add Trunk
 Connectivity &rarr; Trunks &rarr; Add Trunk &rarr; Add SIP (chan_pjsip) Trunk
