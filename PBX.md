@@ -60,6 +60,12 @@ Admin &rarr; Certificate Management
  
 Click "Generate Certificate".  Return to the main Certificate Magement window, and set your new cert as the "Default" by clicking inside the cell under that column header
 
+### Set PHP timezone (needed for CDR records)
+Settings &rarr; Advanced Settings
+
++ System Setup
+    + PHP Timezone: ***America/New_York***
+
 ### Configure SIP
 Settings &rarr; Asterisk SIP Settings
 
