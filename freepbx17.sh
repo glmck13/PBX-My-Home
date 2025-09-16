@@ -74,8 +74,15 @@ cd /var/www/html; mkdir cdn cgi
 cd; git clone https://github.com/glmck13/PBX-My-Home.git
 cp -pr ./PBX-My-Home/phone ~-
 cp -pr ./PBX-My-Home/misc/*.cgi ~-/cgi
-cd -; chown -R asterisk:asterisk phone cgi cdn
+cd -; chown -R asterisk:asterisk phone cdn cgi
 chmod +x */*.cgi
+cat - <<EOF >/etc/asterisk/freepbx_chown.conf
+[blacklist]
+directory = /var/www/html/cgi
+directory = /var/www/html/phone
+directory = /var/lib/asterisk
+EOF
+chown -R asterisk:asterisk /etc/asterisk/freepbx_chown.conf
 
 #
 # Configure ODBC
