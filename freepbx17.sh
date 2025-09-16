@@ -10,7 +10,7 @@ apt install default-libmysqlclient-dev expect ffmpeg htop ipset lame libasound2-
 #
 # Add extras
 #
-apt install coturn iptables-persistent
+apt install ksh coturn iptables-persistent
 timedatectl set-timezone America/New_York
 
 echo -n "Reboot (y/n)? "; read x
