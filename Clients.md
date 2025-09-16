@@ -57,6 +57,21 @@ Just as with the Grandstream, you first need to connect an analog phone to the O
 Click “Reboot”
 
 ## Configure browser phone
+<img src=https://github.com/glmck13/PBX-My-Home/blob/main/browser-phone.png width=600px>  
+
+There’s a “phone” folder in the repo that contains a stand-alone phone client that you can launch from within any browser. The client supports both audio and video calls.  Video calls can be a little temperamental, so if you're expecting to make a lot of video calls, it‘s probably best to install Linphone on your device (the app is free). Instructions for downloading and configuring Linphone are packaged with the browser phone.
+
+The browser phone is served from your PBX, so you need to do the following:
++ Copy the entire contents of the “phone” directory & its subdirectories to /var/www/html
++ Change ownership/permissions on the files:
+```
+cd /var/www/html/phone
+chown -R asterisk:asterisk .
+chmod +x *.cgi
+```
++ Update contacts.csv with extensions you want listed in the call menu, then run ./contacts.cgi to generate the runtime menu.
+
+In order to use the phone, enter the following URL in your browser: http://*PBX_name_address*/phone?user=*User*&secret=*Secret*, where *User* is listed in your contacts list, and *Secret* is the value you assigned to that user’s extension in the PBX.  If you authenticate successfully, you’ll see a page similar to the one above.
 
 ## Configure Linphone
 
