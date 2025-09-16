@@ -58,8 +58,12 @@ ldconfig
 sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/8.2/apache2/php.ini
 sed -i 's/\(^memory_limit = \).*/\1256M/' /etc/php/8.2/apache2/php.ini
 sed -i 's/^\(User\|Group\).*/\1 asterisk/' /etc/apache2/apache2.conf
-sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
-a2enmod rewrite cgi include
+
+sed -i -e "s/^#\([[:space:]]*AddHandler[[:space:]]*cgi-script[[:space:]]*\.cgi\)$/\1/" /etc/apache2/mods-available/mime.conf
+sed -i -e "s/^\([[:space:]]*Options Indexes FollowSymLinks\)$/\1 ExecCGI Includes/" /etc/apache2/apache2.conf
+sed -i -e "s/^\([[:space:]]*AllowOverride\) None$/\1 All/" /etc/apache2/apache2.conf
+
+a2enmod rewrite cgid include
 systemctl restart apache2
 rm /var/www/html/index.html
 
