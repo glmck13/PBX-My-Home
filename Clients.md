@@ -59,21 +59,12 @@ Click “Reboot”
 ## Configure browser phone
 <img src=https://github.com/glmck13/PBX-My-Home/blob/main/browser-phone.png width=600px>  
 
-There’s a “phone” folder in the repo that contains a stand-alone phone client that you can launch from within any browser. The client supports both audio and video calls.  Video calls can be a little temperamental, so if you're expecting to make a lot of video calls, it‘s probably best to install Linphone on your device (the app is free). Instructions for downloading and configuring Linphone are packaged with the browser phone.
+There’s a “phone” folder in the repo that contains a stand-alone phone client that you can launch from within any browser. The client supports both audio and video calls.  Video calls can be a little temperamental, so if you expect to make a lot of video calls, it‘s probably best to install Linphone on your device (the app is free). Instructions for downloading and configuring Linphone are packaged with the browser phone.
 
-The browser phone is served from your PBX, so you need to do the following:
-+ Copy the entire contents of the “phone” directory & its subdirectories to /var/www/html
-+ Change ownership/permissions on the files:
-```
-cd /var/www/html/phone
-chown -R asterisk:asterisk .
-chmod +x *.cgi
-```
-+ Update contacts.csv with extensions you want listed in the call menu, then run ./contacts.cgi to generate the runtime menu.
+The browser phone is served from your PBX, and was copied into /var/www/html/phone during installation.  Be sure to update contacts.csv with any extensions you want listed in the phone's pull-down menu, then run ./contacts.cgi to generate the runtime html files.
 
-In order to use the phone, enter the following URL in your browser: http://*PBX_name_address*/phone?user=*User*&secret=*Secret*, where *User* is listed in your contacts list, and *Secret* is the value you assigned to that user’s extension in the PBX.  If you authenticate successfully, you’ll see a page similar to the one above.
+To use the phone enter the following URL in your browser: http://*PBX_name_address*/phone?user=*User*&secret=*Secret*, where *User* is listed in your contacts list, and *Secret* is the value you assigned to that user’s extension in the PBX.  If you authenticate successfully, you’ll see a page similar to the one above.
 
 ## Configure Linphone
 
-On the client side:
-+ In case you have problems authenticating with the PBX, you may need to update Linphone's rootca.pem file with the cert of the CA that issued your PBX cert.  This file is stored under /usr/share/linphone.  If you're using an AppImage, you'll first need to extract the AppImage and then update the copy of the file stored locally.
+Instructions for configuring Linphone are included with the browser phone.  If you decide to use TLS within Linphone, you may encounter a problem with Linphone's set of Certificate Authorities (CAs).  Apparently Linphone does not keep their rootca.pem file updated with all the latest certs, so it's possible you won't be able to establish a trusted connection with your PBX if the issuer of your cert isn't recognized by Linphone.  Thankfully, however,  I've had good success, using certs issued by Let's Encrypt.
