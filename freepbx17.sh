@@ -68,6 +68,16 @@ systemctl restart apache2
 rm /var/www/html/index.html
 
 #
+# Add browser phone, etc.
+#
+cd /var/www/html; mkdir cdn cgi
+cd; git clone https://github.com/glmck13/PBX-My-Home.git
+cp -pr ./PBX-My-Home/phone ~-
+cp -pr ./PBX-My-Home/misc/*.cgi ~-/cgi
+cd -; chown -R asterisk:asterisk phone cgi cdn
+chmod +x */*.cgi
+
+#
 # Configure ODBC
 #
 cat <<EOF > /etc/odbcinst.ini
