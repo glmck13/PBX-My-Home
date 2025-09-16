@@ -4,7 +4,7 @@ I’ve had good success using the [Grandstream HT801 ATA](https://www.amazon.com
 You’ll need the local LAN address of the ATA to configure it with a web browser.  The easiest way to discover the address is to first connect your analog phone to the ATA, then dial *** followed by menu option 02.  The device will audibly report its IP address so you can use that to http into its web interface.
 
 + FXS Port
-  + Primary SIP Server: ***IP_address_of_PBX***
+  + Primary SIP Server: ***Enter DNS name or IP address of your PBX***
   + NAT Traversal: ***STUN***
   + SIP User ID: ***Enter the extension number you configured on the PBX***
   + Authenticate ID: ***Enter the extension number you configured on the PBX***
@@ -42,8 +42,8 @@ Just as with the Grandstream, you first need to connect an analog phone to the O
 
 + Voice Services
   + SP1 Service
-    + AuthUserName: ***Enter extension # condifured on FreePBX***
-    + AuthPassword: ***Enter extension secret***  
+    + AuthUserName: ***Enter the extension number you configured on the PBX***
+    + AuthPassword: ***Enter the Secret you assigned to the extension***  
     Click “Submit”
 
 + Physical Interfaces
