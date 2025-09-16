@@ -26,8 +26,35 @@ If you want to connect the Grandstream to Flowroute directly, you can follow the
 ## Configure OBi30X ATA
 After Google canceled its Google Talk service a few years ago, there wasn’t much use for the OBi30X ATAs anymore, so the manufacturer (now HP) designated them as end-of-life.  Nonetheless, the units function just fine for connecting a house phone to your PBX (or directly to another VoIP provider), and you can still purchase cheap [OBi30X ATAs on Amazon](https://www.amazon.com/dp/B07FZYPD8T/).  What’s more, you can also purchase a [WiFi dongle](https://www.amazon.com/dp/B07FZQX1RQ) for the OBi so you can locate the ATA anywhere in your house without having to directly cable it to your home router.
 
-Just as with the Grandstream, you first need to connect an analog phone to the OBi to retrieve its IP address and enable the web interface. First dial ***1 to get the IP address of the device. Then dial ***0 to enter the configuration menu, followed by 30# to reach the web server setting. Press 1, then 1# to enable the web server, then 1 to save the settings.
+Just as with the Grandstream, you first need to connect an analog phone to the OBi to retrieve its IP address and enable the web interface. First dial ***1 to get the IP address of the device. Then dial ***0 to enter the configuration menu, followed by 30# to reach the web server setting. Press 1, then 1# to enable the web server, then 1 to save the settings. Next, goto http://<IP address> on your browser.  The default credentials are: Username: admin, Password: admin.  Navigate through the Setup Wizard on the left and set the parameters as specified below.  Note that in order to make a change to a parameter you first must uncheck the "Default" checkbox.
 
++ Service Providers
+  + ITSP Profile A
+    + General
+      + DigitMap: ***(*xx|xxxx|9xxxxxxxxxx)***
+      + STUNEnable: ***Check the box***
+      + STUNServer: ***Enter DNS name or IP address of your PBX***  
+      Click “Submit”
+    + SIP
+      + ProxyServer: ***Enter DNS name or IP address of your PBX***
+      + ProxyServerTransport: ***TCP***  
+      Click “Submit”
+
++ Voice Services
+  + SP1 Service
+    + AuthUserName: ***Enter extension # condifured on FreePBX***
+    + AuthPassword: ***Enter extension secret***  
+    Click “Submit”
+
++ Physical Interfaces
+  + PHONE1 Port
+    + DigitMap: ***(*xx|xxxx|9xxxxxxxxxx)***
+    + OutboundCallRoute: ***{(Msp1):sp1}***
+    + CallReturnDigitMaps: ***Set the field to blank***
+    + StarCodeProfile: ***None***  
+    Click “Submit”  
+
+Click “Reboot”
 
 ## Configure browser phone
 
