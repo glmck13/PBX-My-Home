@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ksh
 
 exten=${QUERY_STRING:-none}
 
