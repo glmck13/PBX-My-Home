@@ -9,6 +9,7 @@ We’ll be installing [Asterisk](https://www.asterisk.org/) and [FreePBX](https:
 + accept	UDP	3478	0.0.0.0/0	: Coturn
 + accept	UDP	5060	0.0.0.0/0	: SIP over UDP
 + accept	TCP	5060	0.0.0.0/0	: SIP over TCP
++ accept	TCP	5061	0.0.0.0/0	: SIP over TLS
 + accept TCP 8089 0.0.0.0/0: SIP over websocket
 + accept	UDP	10000 – 20000	0.0.0.0/0
 + drop	any	0 - 65535	0.0.0.0/0	(default)
