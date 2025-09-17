@@ -74,15 +74,53 @@ cd /var/www/html; mkdir cdn cgi
 cd; git clone https://github.com/glmck13/PBX-My-Home.git
 cp -pr ./PBX-My-Home/phone ~-
 cp -pr ./PBX-My-Home/misc/*.cgi ~-/cgi
+cp -pr ./PBX-My-Home/misc/*.mp3 ~-/cdn
 cd -; chown -R asterisk:asterisk phone cdn cgi
 chmod +x */*.cgi
+
+cd /var/www/html
+wget https://github.com/filegator/static/raw/master/builds/filegator_latest.zip
+unzip filegator_latest.zip && rm filegator_latest.zip
+chown -R asterisk:asterisk filegator/
+chmod -R 775 filegator/
+mv filegator tunes
+cd tunes
+rmdir repository; ln -s ../cdn repository
+sed -i -e "s?'add_to_head' => '',?'add_to_head' => '<center><b>Extract YouTube Audio</b><form action=\"/cgi/youtube.cgi\"><input type=\"text\" name=\"url\" size=50 placeholder=\"Enter URL...\"><input type=\"submit\" value=\"Process\"></form></center>',?" configuration.php
+sed -i -e "s/'development'/'production'/" index.php
+
+apt install python3-venv gridsite-clients
+cd /var/lib/asterisk
+cat - <<EOF >helper.sh
+#!/bin/bash
+python3 -m venv venv
+source venv/bin/activate
+pip3 install yt-dlp
+EOF
+chmod +x helper.sh
+./helper.sh
+su - asterisk -c ./helper.sh
+rm -f helper.sh
+
 cat - <<EOF >/etc/asterisk/freepbx_chown.conf
 [blacklist]
 directory = /var/www/html/cgi
 directory = /var/www/html/phone
+directory = /var/www/html/tunes
 directory = /var/lib/asterisk
 EOF
-chown -R asterisk:asterisk /etc/asterisk/freepbx_chown.conf
+
+cat - <<EOF >/etc/asterisk/extensions_custom.conf
+[from-internal-custom]
+
+exten => _4XXX,1,Answer()
+same => n,Gosub(macro-user-callerid,s,1())
+same => n,Set(VOLUME(TX)=3)
+same => n,MP3Player(http://localhost/cgi/mp3.cgi?${EXTEN})
+same => n,Hangup()
+EOF
+
+chown -R asterisk:asterisk /etc/asterisk
 
 #
 # Configure ODBC
