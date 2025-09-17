@@ -98,7 +98,6 @@ source venv/bin/activate
 pip3 install yt-dlp
 EOF
 chmod +x helper.sh
-./helper.sh
 su - asterisk -c ./helper.sh
 rm -f helper.sh
 
