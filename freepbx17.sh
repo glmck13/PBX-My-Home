@@ -175,6 +175,13 @@ systemctl enable freepbx
 ############
 
 #
+# Update clrcdr script
+#
+dbpass=$(grep DBPASS /etc/freepbx.conf)
+dbpass=${dbpass##* } dbpass=${dbpass%;}
+sed -i -e "s/DBPASS=.*/DBPASS=${dbpass}/" /var/www/html/cgi/clrcdr.cgi
+
+#
 # Configure firewall
 #
 #cat - <<EOF >/etc/iptables/rules.v4
