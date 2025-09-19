@@ -10,7 +10,7 @@ apt-get install default-libmysqlclient-dev expect ffmpeg htop ipset lame libasou
 #
 # Add extras
 #
-apt-get install ksh coturn iptables-persistent
+apt-get install ksh coturn iptables-persistent snapd
 snap install --classic certbot
 ln -s /snap/bin/certbot /usr/bin/certbot
 timedatectl set-timezone America/New_York
