@@ -3,14 +3,14 @@
 #
 # Update OS
 #
-apt update
-apt upgrade
-apt install default-libmysqlclient-dev expect ffmpeg htop ipset lame libasound2-dev libcurl4-openssl-dev libical-dev libicu-dev libjansson-dev libncurses5-dev libneon27-dev libnewt-dev libogg-dev libspandsp-dev libsqlite3-dev libsrtp2-dev libssl-dev libtool-bin libvorbis-dev libxml2-dev linux-headers-`uname -r` mariadb-client mariadb-server mpg123 nodejs npm odbc-mariadb php-pear php-soap php8.2 php8.2-cli php8.2-common php8.2-curl php8.2-gd php8.2-intl php8.2-mbstring php8.2-mysql php8.2-xml python-dev-is-python3 sngrep software-properties-common sox sqlite3 subversion unixodbc unixodbc-dev uuid uuid-dev
+apt-get update
+apt-get upgrade
+apt-get install default-libmysqlclient-dev expect ffmpeg htop ipset lame libasound2-dev libcurl4-openssl-dev libical-dev libicu-dev libjansson-dev libncurses5-dev libneon27-dev libnewt-dev libogg-dev libspandsp-dev libsqlite3-dev libsrtp2-dev libssl-dev libtool-bin libvorbis-dev libxml2-dev linux-headers-`uname -r` mariadb-client mariadb-server mpg123 nodejs npm odbc-mariadb php-pear php-soap php8.2 php8.2-cli php8.2-common php8.2-curl php8.2-gd php8.2-intl php8.2-mbstring php8.2-mysql php8.2-xml python-dev-is-python3 sngrep software-properties-common sox sqlite3 subversion unixodbc unixodbc-dev uuid uuid-dev
 
 #
 # Add extras
 #
-apt install ksh coturn iptables-persistent
+apt-get install ksh coturn iptables-persistent
 snap install --classic certbot
 ln -s /snap/bin/certbot /usr/bin/certbot
 timedatectl set-timezone America/New_York
@@ -91,7 +91,7 @@ rmdir repository; ln -s ../cdn repository
 sed -i -e "s?'add_to_head' => '',?'add_to_head' => '<center><b>Extract YouTube Audio</b><form action=\"/cgi/youtube.cgi\"><input type=\"text\" name=\"url\" size=50 placeholder=\"Enter URL...\"><input type=\"submit\" value=\"Process\"></form></center>',?" configuration.php
 sed -i -e "s/'development'/'production'/" index.php
 
-apt install python3-venv gridsite-clients
+apt-get install python3-venv gridsite-clients
 cd /var/lib/asterisk
 cat - <<EOF >helper.sh
 #!/bin/bash
