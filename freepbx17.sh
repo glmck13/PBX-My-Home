@@ -205,3 +205,13 @@ sed -i -e "s/DBPASS=.*/DBPASS=${dbpass}/" /var/www/html/cgi/clrcdr.cgi
 #-A INPUT -s 192.168.0.0/16 -j ACCEPT
 #COMMIT
 #EOF
+
+#
+# Get cert, turn on HTTPS
+#
+#systemctl stop apache2
+#certbot certonly --standalone
+#a2enmod ssl
+#a2ensite default-ssl
+#vi /etc/apache2/sites-enabled/default-ssl.conf
+#systemctl restart apache2
