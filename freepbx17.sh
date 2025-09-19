@@ -3,14 +3,16 @@
 #
 # Update OS
 #
-apt-get update
-apt-get upgrade
+apt update
+apt upgrade
 apt install default-libmysqlclient-dev expect ffmpeg htop ipset lame libasound2-dev libcurl4-openssl-dev libical-dev libicu-dev libjansson-dev libncurses5-dev libneon27-dev libnewt-dev libogg-dev libspandsp-dev libsqlite3-dev libsrtp2-dev libssl-dev libtool-bin libvorbis-dev libxml2-dev linux-headers-`uname -r` mariadb-client mariadb-server mpg123 nodejs npm odbc-mariadb php-pear php-soap php8.2 php8.2-cli php8.2-common php8.2-curl php8.2-gd php8.2-intl php8.2-mbstring php8.2-mysql php8.2-xml python-dev-is-python3 sngrep software-properties-common sox sqlite3 subversion unixodbc unixodbc-dev uuid uuid-dev
 
 #
 # Add extras
 #
 apt install ksh coturn iptables-persistent
+snap install --classic certbot
+ln -s /snap/bin/certbot /usr/bin/certbot
 timedatectl set-timezone America/New_York
 
 echo -n "Reboot (y/n)? "; read x
