@@ -123,7 +123,7 @@ Connectivity &rarr; Inbound Routes &rarr; Add Inbound Route
 
 Click “Submit”
 
-### Add Extension(2)
+### Add Extension(s)
 Connectivity &rarr; Extensions &rarr; Add Extension &rarr; Add New SIP [chan_pjsip] Extension
 + General tab:
   + User Extension: ***Assign your own 3-digit/4-digit extension, e.g 1000***
