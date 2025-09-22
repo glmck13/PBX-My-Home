@@ -82,4 +82,4 @@ I installed [linphone](https://www.linphone.org/) on both my Linux and Windows d
 I cobbled togther the above config from a variety of different sources on the web.  As it turned out, each of the sources turned out to have some inaccurate or missing info, so it took some trial and error before I got everything working. Here are a few of the links that turned out to be most directionally correct:
 1. [Convert Your Analog Phone Line To Digital With Grandstream HT813](https://vitalpbx.com/blog/convert-your-analog-phone-line-to-digital/)
 2. [FreePBX and Grandstream HT813](https://community.freepbx.org/t/freepbx-and-grandstream-ht813/87346/8)
-3. [Configuring a Grandstream HT503 Device to act as an FXO Gateway](https://wiki.freepbx.org/pages/viewpage.action?pageId=33293313)
+3. [Configuring a Grandstream HT503 Device to act as an FXO Gateway](https://sangomakb.atlassian.net/wiki/spaces/FP/pages/11894977/Configuring+a+Grandstream+HT503+Device+to+act+as+an+FXO+Gateway+and+the+whys+behind+setting+up+an+FXO+appliance)
