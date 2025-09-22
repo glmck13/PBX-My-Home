@@ -38,7 +38,6 @@ You'll also need to check the swap space on the server.  You can check this by r
 Now launch the script.  You’ll run the script twice.  The first time through the script applies Debian updates and installs a collection of prerequisite packages needed by Asterisk and FreePBX. Respond no when asked if you want to save the current IPv4/IPv6 firewall rules.  After installing this first set of packages, the script prompts you to reboot.  Respond (y)es on the first run, wait for the server to come back online, ssh back in, and run freepbx17.sh a second time.  When prompted to reboot, respond (n)o this time, and the script will download, compile, and install Asterisk, then download and install FreePBX.  When asked to select modules during the Asterisk build, just accept the defaults.  When the script completes, reboot the server then ssh back in to confirm your firewall rules are correct.  
 
 Apply the following additional patches:
-
 + Comment-out "#syslog" in /etc/turnserver.conf
 
 You can now proceed with setting up FreePBX.  
@@ -51,7 +50,6 @@ Access the FreePBX console from your browser using the IP address of the server,
 
 ### Upload SSL Certificate (needed for TLS/WSS transport)
 Admin &rarr; Certificate Management
-
 + New Certificate &rarr; Upload Certificate:
   + Name: ***Your certificate name***
   + Description: ***Your certificate name***
@@ -63,18 +61,15 @@ Click "Generate Certificate".  Return to the main Certificate Magement window, a
 
 ### Set PHP timezone (needed for CDR records)
 Settings &rarr; Advanced Settings
-
 + System Setup
-    + PHP Timezone: ***America/New_York***
+  + PHP Timezone: ***America/New_York***
 
 ### Configure SIP
-Settings &rarr; Asterisk SIP Settings
-
+Settings &rarr; Asterisk SIP Settings  
 + General tab:
   + NAT Settings: ***Detect Network Settings***
   + RTP Timeout: ***set to '0' for SIP.js***
-  + Video Support: ***Enabled***
- 
+  + Video Support: ***Enabled***  
 + SIP Settings [chan_pjsip] tab:
   + Certificate Manager: ***Your certificate name***
   + SSL Method: ***tlsv1_2***
@@ -87,18 +82,15 @@ Click “Submit”
 
 ### Add Trunk
 Connectivity &rarr; Trunks &rarr; Add Trunk &rarr; Add SIP (chan_pjsip) Trunk
-
 + General tab:
   + Trunk Name: ***FLOWROUTE***
   + Outbound CallerID: ***Your 10-digit VoIP number without the leading country code***
   + CID Oprtions: ***Force Trunk CID***
-  + Maximum Channels: ***Leave blank; allows for multiple calls using the same VoIP line***
-
+  + Maximum Channels: ***Leave blank; allows for multiple calls using the same VoIP line***  
 + Dialed Number Manipulation Rules tab:
   + prepend: ***Tech Prefix for your DID in Flowroute, followed by a single asterisk, and a ‘1’ for the US country code, e.g. 10668144\*1  You can find the Tech Prefix by looking under Interconnection &rarr; IP Authentication in your Flowroute account.***
   + prefix: ***‘9’ to get an outside line***
-  + match pattern: ***XXXXXXXXXX for 10 digit calling***
-
+  + match pattern: ***XXXXXXXXXX for 10 digit calling***  
 + pjsip Settings tab:
   + Username: ***Tech Prefix for your DID in Flowroute***
   + Auth username: ***Tech Prefix for your DID in Flowroute***
@@ -112,12 +104,10 @@ Click “Submit”
 
 ### Add Outbound Route
 Connectivity &rarr; Outbound Routes &rarr; Add Outbound Route
-
 + Route Settings tab:
   + Route Name: ***FLOWROUTE***
   + Route CID: ***Your 10-digit VoIP number without the leading country code***
-  + Trunk Sequence for Matched Routes: ***Select FLOWROUTE trunk***
-
+  + Trunk Sequence for Matched Routes: ***Select FLOWROUTE trunk***  
 + Dial Patterns tab:
   + prepend: ***Tech Prefix for your DID in Flowroute, followed by a single asterisk, and a ‘1’ for the US country code, e.g. 10668144\*1***
   + prefix: ***‘9’ to get an outside line***
@@ -127,14 +117,13 @@ Click “Submit”
 
 ### Add Inbound Route
 Connectivity &rarr; Inbound Routes &rarr; Add Inbound Route
-
 + General tab:
   + DID Number: ***_9XXXXXXXXXX***
   + Set Destination: ***Select FLOWROUTE trunk***
 
 Click “Submit”
 
-### Add Extension
+### Add Extension(2)
 Connectivity &rarr; Extensions &rarr; Add Extension &rarr; Add New SIP [chan_pjsip] Extension
 + General tab:
   + User Extension: ***Assign your own 3-digit/4-digit extension, e.g 1000***
@@ -152,3 +141,20 @@ Connectivity &rarr; Inbound Routes &rarr; Add Inbound Route
 Click “Submit”
 
 You can now click "Apply Config" to activate these changes in Asterisk.
+
+### Add Browser Extension(s)
+Connectivity &rarr; Extensions &rarr; Add Extension &rarr; Add New SIP [chan_pjsip] Extension
++ General tab:
+  + User Extension: ***Assign your own 3-digit/4-digit extension, e.g 1000***
+  + Display Name: ***Same as the extension number***
+  + Secret: ***Assign a password for the extension***
++ Advanced tab:
+  + Edit Extension:
+    + Enable AVPF: ***Yes***
+    + Enable ICE Support: ***Yes***
+    + Enable rtcp Mux: ***Yes***
+    + Enable WebRTC defaults: ***Yes***
+    + Media Encryption: ***DTLS-SRTP (not recommended)***
+  + DTLS
+    + Enable DTLS: ***Yes***
+    + Use Certificate: ***Your certificate name***
