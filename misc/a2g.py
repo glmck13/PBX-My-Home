@@ -18,6 +18,12 @@ from google.genai.types import (
 )
 from concurrent.futures import ThreadPoolExecutor
 
+AUDIOSOCKET_AUDIO = b'\x10'
+AUDIOSOCKET_DTMF = b'\x03'
+AUDIOSOCKET_UUID = b'\x01'
+AUDIOSOCKET_HANGUP = b'\x00'
+AUDIOSOCKET_ERROR = b'\xFF'
+
 # --- CONFIGURATION ---
 ASTERISK_HOST = 'localhost'
 ASTERISK_PORT = 8123
@@ -97,8 +103,7 @@ def create_audiosocket_chunk(audio_payload: bytes) -> bytes:
     """
     payload_len = len(audio_payload)
 
-    # Version byte (0x10)
-    version_byte = b'\x10'
+    version_byte = AUDIOSOCKET_AUDIO
 
     # 2-byte payload length (Big Endian, unsigned short 'H')
     length_bytes = struct.pack('>H', payload_len)
@@ -191,8 +196,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
                         log_message("INFO", "Asterisk stream closed (client hung up or EOF on header). Sender exiting.")
                         break
 
-                    # 2. Extract payload length (2 bytes, Big Endian)
-                    payload_len = struct.unpack('>H', header[1:3])[0]
+                    version_byte, payload_len = struct.unpack('>BH', header)
 
                     if payload_len == 0:
                         log_message("DEBUG", "Received 0-length audio chunk (skip).")
@@ -364,9 +368,9 @@ async def handle_call(reader, writer):
     try:
         # Read the initial metadata/payload from AudioSocket
         header = await reader.readexactly(3)
-        payload_len = struct.unpack('>H', header[1:3])[0]
+        version_byte, payload_len = struct.unpack('>BH', header)
         payload = await reader.readexactly(payload_len)
-        log_message("CALL", f"Initial AudioSocket Message: {header}:{payload_len}:{payload}")
+        log_message("CALL", f"Initial AudioSocket Message: {version_byte}:{payload_len}:{payload.hex(' ', 1)}")
 
         # Hand off control to the Gemini streaming logic
         await gemini_streamer(reader, writer)
