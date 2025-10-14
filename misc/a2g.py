@@ -198,6 +198,10 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
 
                     version_byte, payload_len = struct.unpack('>BH', header)
 
+                    if version_byte != int.from_bytes(AUDIOSOCKET_AUDIO):
+                        log_message("DEBUG", f"Received non-audio packet: {version_byte}, (skip).")
+                        continue
+
                     if payload_len == 0:
                         log_message("DEBUG", "Received 0-length audio chunk (skip).")
                         continue
@@ -241,7 +245,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
         async def receive_from_gemini_loop():
             # Buffer to collect 8kHz audio before sending (Local variable)
             audio_send_buffer = b'' 
-            
+
             try:
                 # Outer while True loop keeps the receiver active for multiple turns
                 while True: 
@@ -266,7 +270,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
 
                                     if inline_data.mime_type == "audio/pcm;rate=24000":
                                         gemini_pcm_chunk = inline_data.data
-                                        
+
                                         # Convert 24kHz to 8kHz in the dedicated thread pool
                                         pcm_8k_chunk = await run_in_executor(
                                             gemini_to_asterisk_executor,
@@ -292,17 +296,17 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
                                             # iii. Write the headered chunk to Asterisk
                                             asterisk_writer.write(audiosocket_chunk)
                                             await asterisk_writer.drain()
-                                            
+
                                             # iv. Throttle for exactly 20ms
                                             await asyncio.sleep(PLAYBACK_DURATION)
 
                                     else:
                                         log_message("DEBUG", f"Received non-audio inline data: {inline_data.mime_type}")
-                        
+
                         # Check for the model's signal that its turn is complete
                         if hasattr(response, 'server_content') and response.server_content.generation_complete:
                             log_message("DEBUG", "Gemini turn completed. Processing remaining buffer.")
-                            
+
                             # CRITICAL: Send any remaining audio in the buffer
                             # This loop handles the final few bytes (< 320)
                             while len(audio_send_buffer) > 0:
@@ -310,17 +314,17 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
                                 chunk_size = min(len(audio_send_buffer), TARGET_CHUNK_SIZE)
                                 chunk_to_send = audio_send_buffer[:chunk_size]
                                 audio_send_buffer = audio_send_buffer[chunk_size:]
-                                
+
                                 # Send the chunk (even if it's less than 320 bytes)
                                 audiosocket_chunk = create_audiosocket_chunk(chunk_to_send)
                                 asterisk_writer.write(audiosocket_chunk)
                                 await asterisk_writer.drain()
-                                
+
                                 # Throttle based on the size of this specific chunk
                                 # bytes_per_sample is 2 (16-bit PCM)
                                 final_chunk_duration = chunk_size / (ASTERISK_RATE * 2) 
                                 await asyncio.sleep(final_chunk_duration)
-                                
+
                             log_message("DEBUG", "Remaining buffer flushed. Restarting receiver for next turn...")
                             break # Exit the async for and let while True restart the turn
 
