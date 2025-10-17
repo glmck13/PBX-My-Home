@@ -20,10 +20,10 @@ AUDIOSOCKET_HANGUP = b'\x00'
 AUDIOSOCKET_ERROR = b'\xFF'
 
 # --- CONFIGURATION ---
+
 ASTERISK_HOST = 'localhost'
 ASTERISK_PORT = 8123
 
-# Audio parameters for the two sides
 ASTERISK_RATE = 8000
 ASTERISK_CHANNELS = 1
 ASTERISK_BITSPERSAMPLE = 16 # PCM
@@ -31,9 +31,8 @@ SONIC_RATE = 8000
 SONIC_CHANNELS = 1
 SONIC_BITSPERSAMPLE = 16 # PCM
 
-# Fixed chunk size for 8kHz 16-bit PCM for 20ms of audio
-TARGET_CHUNK_SIZE = 320 
-PLAYBACK_DURATION = 0.020 
+TARGET_CHUNK_SIZE = 320
+PLAYBACK_DURATION = 0.020
 
 AWS_MODEL = 'amazon.nova-sonic-v1:0'
 AWS_REGION = 'us-east-1'
@@ -85,18 +84,18 @@ class SimpleNovaSonic:
         )
         self.is_active = True
 
-        session_start = '''
-        {
-          "event": {
-            "sessionStart": {
-              "inferenceConfiguration": {
+        session_start = f'''
+        {{
+          "event": {{
+            "sessionStart": {{
+              "inferenceConfiguration": {{
                 "maxTokens": 1024,
                 "topP": 0.9,
                 "temperature": 0.7
-              }
-            }
-          }
-        }
+              }}
+            }}
+          }}
+        }}
         '''
         await self.send_event(session_start)
 
@@ -254,44 +253,33 @@ class SimpleNovaSonic:
                 if result and result.value and result.value.bytes_:
                     response_data = result.value.bytes_.decode('utf-8')
                     json_data = json.loads(response_data)
-                    #log_message("INFO", f"Received {json_data.get("event", {}).keys()} from Nova Sonic...")
 
                     if 'event' in json_data:
-                        # Handle content start event
                         if 'contentStart' in json_data['event']:
                             content_start = json_data['event']['contentStart']
-                            # set role
                             self.role = content_start['role']
-                            # Check for speculative content
                             if 'additionalModelFields' in content_start:
                                 additional_fields = json.loads(content_start['additionalModelFields'])
-                                if additional_fields.get('generationStage') == 'SPECULATIVE':
-                                    self.display_assistant_text = True
-                                else:
-                                    self.display_assistant_text = False
+                                self.display_assistant_text = additional_fields.get('generationStage') == 'SPECULATIVE'
 
-                        # Handle text output event
                         elif 'textOutput' in json_data['event']:
                             text = json_data['event']['textOutput']['content']
-
                             if (self.role == "ASSISTANT" and self.display_assistant_text):
                                 print(f"Assistant: {text}")
                             elif self.role == "USER":
                                 print(f"User: {text}")
 
-                        # Handle audio output
                         elif 'audioOutput' in json_data['event']:
                             audio_content = json_data['event']['audioOutput']['content']
                             audio_bytes = base64.b64decode(audio_content)
                             await self.audio_queue.put(audio_bytes)
 
-                        # Handle hangup
                         elif 'completionEnd' in json_data['event']:
                             self.is_active = False
                             await self.stream.input_stream.close()
 
         except Exception as e:
-            print(f"Error processing responses: {e}")
+            log_message("ERROR", f"Error processing responses: {e}")
 
         finally:
             log_message("INFO", "Nova Sonic response task cleanly finished.")
@@ -303,17 +291,16 @@ class SimpleNovaSonic:
 
                 while len(audio_send_buffer) >= TARGET_CHUNK_SIZE:
                     chunk_to_send = audio_send_buffer[:TARGET_CHUNK_SIZE]
-                    audio_send_buffer = audio_send_buffer[TARGET_CHUNK_SIZE:] # Keep the remainder
+                    audio_send_buffer = audio_send_buffer[TARGET_CHUNK_SIZE:]
                     self.writer.write(create_audiosocket_chunk(chunk_to_send))
                     await self.writer.drain()
                     await asyncio.sleep(PLAYBACK_DURATION)
 
-                else:
-                    if len(audio_send_buffer) > 0:
-                        chunk_to_send = audio_send_buffer
-                        self.writer.write(create_audiosocket_chunk(chunk_to_send))
-                        await self.writer.drain()
-                        await asyncio.sleep(len(chunk_to_send) / (ASTERISK_RATE * 2) )
+                if len(audio_send_buffer) > 0:
+                    chunk_to_send = audio_send_buffer
+                    self.writer.write(create_audiosocket_chunk(chunk_to_send))
+                    await self.writer.drain()
+                    await asyncio.sleep(len(chunk_to_send) / (ASTERISK_RATE * 2.0) )
 
         except Exception as e:
             log_message("ERROR", f"Error in play_audio: {e}")
@@ -324,6 +311,8 @@ class SimpleNovaSonic:
     async def capture_audio(self):
         await self.start_audio_input()
         try:
+            AUDIO_VERSION = AUDIOSOCKET_AUDIO[0]
+
             while self.is_active:
                 header = await self.reader.readexactly(3)
 
@@ -332,10 +321,12 @@ class SimpleNovaSonic:
                     break
 
                 version_byte, payload_len = struct.unpack('>BH', header)
-                #log_message("INFO", f"Received {payload_len} bytes from Asterisk...")
 
-                if version_byte != int.from_bytes(AUDIOSOCKET_AUDIO):
+                if version_byte != AUDIO_VERSION:
                     log_message("DEBUG", f"Received non-audio packet: {version_byte}, (skip).")
+
+                    if payload_len > 0:
+                        await self.reader.readexactly(payload_len)
                     continue
 
                 if payload_len == 0:
@@ -361,21 +352,15 @@ class SimpleNovaSonic:
 
 async def sonic_streamer(asterisk_reader, asterisk_writer):
 
-    # Create Nova Sonic client
     nova_client = SimpleNovaSonic(asterisk_reader, asterisk_writer)
     log_message("INFO", f"Nova Sonic client created successfully...")
 
-    # Start session
     await nova_client.start_session()
     log_message("INFO", f"Nova Sonic session started successfully...")
 
-    # Start audio playback task
     playback_task = asyncio.create_task(nova_client.play_audio())
-
-    # Start audio capture task
     capture_task = asyncio.create_task(nova_client.capture_audio())
 
-    # Wait for either task to finish
     done, pending = await asyncio.wait(
         [playback_task, capture_task],
         return_when=asyncio.FIRST_COMPLETED,
@@ -383,18 +368,16 @@ async def sonic_streamer(asterisk_reader, asterisk_writer):
 
     for task in pending:
         task.cancel()
-
     if pending:
         await asyncio.gather(*pending, return_exceptions=True)
 
-    # End session
     await nova_client.end_audio_input()
     await nova_client.end_session()
     await asyncio.sleep(2)
     nova_client.is_active = False
     await nova_client.stream.input_stream.close()
-    
-    print("Session ended")
+
+    log_message("INFO", "Nova Sonic Session ended.")
 
 # --- CALL HANDLER & MAIN SERVER ---
 
@@ -403,20 +386,17 @@ async def handle_call(reader, writer):
     log_message("CALL", f"Connection accepted from Asterisk: {addr}")
 
     try:
-        # Read the initial metadata/payload from AudioSocket
         header = await reader.readexactly(3)
         version_byte, payload_len = struct.unpack('>BH', header)
         payload = await reader.readexactly(payload_len)
         log_message("CALL", f"Initial AudioSocket Message: {version_byte}:{payload_len}:{payload.hex(' ', 1)}")
 
-        # Hand off control to the Nova Sonic streaming logic
         await sonic_streamer(reader, writer)
 
     except Exception as e:
         log_message("FATAL", f"Call handler failed: {e}")
 
     finally:
-        # Clean up the Asterisk connection
         log_message("CALL", f"Closing connection from {addr}")
         writer.close()
         await writer.wait_closed()
