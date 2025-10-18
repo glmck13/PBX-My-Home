@@ -15,6 +15,7 @@ from google.genai.types import (
     PrebuiltVoiceConfig,
     LiveConnectConfig,
     Blob,
+    Tool
 )
 from concurrent.futures import ThreadPoolExecutor
 
@@ -161,6 +162,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
         return loop.run_in_executor(executor, func, *args)
 
     client = genai.Client()
+    search_tool = genai.types.Tool(google_search={})
 
     config = LiveConnectConfig(
         speech_config=SpeechConfig(
@@ -169,7 +171,8 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
                     voice_name='Kore'
                 )
             )
-        )
+        ),
+        tools=[search_tool]
     )
 
     async with client.aio.live.connect(config=config, model=GEMINI_MODEL) as live_session:
