@@ -186,7 +186,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
                 await live_session.send_client_content(
                     turns = genai.types.Content(
                         role="user",
-                        parts=[genai.types.Part(text="Hello. I'm calling in from an Asterisk PBX and would like to chat. Can you introduce yourself?")]
+                        parts=[genai.types.Part(text="Hello. I'd like to chat, but try to keep your replies short. Are you ready?")]
                     ),
                     turn_complete=True # Tells the model to generate the response NOW
                 )
