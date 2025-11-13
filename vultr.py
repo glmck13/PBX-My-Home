@@ -26,6 +26,10 @@ if not env.get("VULTR_API_KEY"):
 # Get the SSH public key for this desktop
 #
 rsp = subprocess.run(["ls", "-1", env["HOME"] + "/.ssh"], env=env, capture_output=True, text=True)
+if rsp.stderr:
+	print(rsp.stderr, file=sys.stderr)
+	exit()
+
 flist = rsp.stdout.split('\n')
 public_key = ""
 for fn in flist:
@@ -40,6 +44,10 @@ if not public_key:
 # Upload SSH key
 #
 rsp = subprocess.run(["vultr-cli", "-o", "json", "ssh-key", "list"], env=env, capture_output=True, text=True)
+if rsp.stderr:
+	print(rsp.stderr, file=sys.stderr)
+	exit()
+
 for x in json.loads(rsp.stdout)["ssh_keys"]:
 	if x["name"] == PBXMYHOME:
 		ssh_id = x["id"]
@@ -59,6 +67,10 @@ else:
 # Create firewall group
 #
 rsp = subprocess.run(["vultr-cli", "-o", "json", "firewall", "group", "list"], env=env, capture_output=True, text=True)
+if rsp.stderr:
+	print(rsp.stderr, file=sys.stderr)
+	exit()
+
 for x in json.loads(rsp.stdout)["firewall_groups"]:
 	if x["description"] == PBXMYHOME:
 		fw_id = x["id"]
@@ -86,6 +98,10 @@ else:
 # Create instance
 #
 rsp = subprocess.run(["vultr-cli", "-o", "json", "instance", "list"], env=env, capture_output=True, text=True)
+if rsp.stderr:
+	print(rsp.stderr, file=sys.stderr)
+	exit()
+
 for x in json.loads(rsp.stdout)["instances"]:
 	if x["label"] == PBXMYHOME:
 		vps_id = x["id"]
