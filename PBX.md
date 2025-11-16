@@ -80,6 +80,11 @@ Settings &rarr; Asterisk SIP Settings
  
 Click “Submit”
 
+Settings &rarr; Advanced Settings
++ HTTPS Bind Address: ***0.0.0.0***
+
+Click “Submit”
+
 ### Add Trunk
 Connectivity &rarr; Trunks &rarr; Add Trunk &rarr; Add SIP (chan_pjsip) Trunk
 + General tab:
