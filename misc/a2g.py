@@ -29,7 +29,7 @@ AUDIOSOCKET_ERROR = b'\xFF'
 ASTERISK_HOST = 'localhost'
 ASTERISK_PORT = 8123
 # Model optimized for live voice (assumes Native Audio support)
-GEMINI_MODEL = "gemini-live-2.5-flash-preview"
+GEMINI_MODEL = "gemini-2.0-flash-exp"
 
 # Audio parameters for the two sides
 ASTERISK_RATE = 8000
