@@ -29,7 +29,7 @@ AUDIOSOCKET_ERROR = b'\xFF'
 ASTERISK_HOST = 'localhost'
 ASTERISK_PORT = 8123
 # Model optimized for live voice (assumes Native Audio support)
-GEMINI_MODEL = "gemini-2.0-flash-exp"
+GEMINI_MODEL = "gemini-2.5-flash-native-audio-latest"
 
 # Audio parameters for the two sides
 ASTERISK_RATE = 8000
@@ -125,26 +125,24 @@ class AudioConverter:
         """
         Converts: Asterisk (Linear PCM 16-bit @ 8kHz) -> Gemini (Linear PCM 16-bit @ 16kHz)
         """
-
         pcm_8k_array = np.frombuffer(pcm_8k_bytes, dtype=np.int16)
-        num_samples_16k = int(len(pcm_8k_array) * GEMINI_INPUT_RATE / ASTERISK_RATE)
-        pcm_16k_array = signal.resample(pcm_8k_array, num_samples_16k)
-        pcm_16k_bytes =  pcm_16k_array.astype(np.int16).tobytes()
-
-        return pcm_16k_bytes
+        
+        # MINIMAL CHANGE: Use resample_poly with a 2:1 ratio (8k -> 16k)
+        pcm_16k_array = signal.resample_poly(pcm_8k_array, 2, 1)
+        
+        return pcm_16k_array.astype(np.int16).tobytes()
 
     @staticmethod
     def gemini_to_asterisk(pcm_24k_bytes: bytes) -> bytes:
         """
         Converts: Gemini (Linear PCM 16-bit @ 24kHz) -> Asterisk (Linear PCM 16-bit @ 8kHz)
         """
-
         pcm_24k_array = np.frombuffer(pcm_24k_bytes, dtype=np.int16)
-        num_samples_8k = int(len(pcm_24k_array) * ASTERISK_RATE / GEMINI_OUTPUT_RATE)
-        pcm_8k_array = signal.resample(pcm_24k_array, num_samples_8k)
-        pcm_8k_bytes = pcm_8k_array.astype(np.int16).tobytes()
-
-        return pcm_8k_bytes
+        
+        # MINIMAL CHANGE: Use resample_poly with a 1:3 ratio (24k -> 8k)
+        pcm_8k_array = signal.resample_poly(pcm_24k_array, 1, 3)
+        
+        return pcm_8k_array.astype(np.int16).tobytes()
 
 # --- CORE LOGIC: THE GEMINI LIVE STREAMER (CONCURRENCY, PACING, & PERSISTENCE FIXES) ---
 
@@ -165,6 +163,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
     search_tool = genai.types.Tool(google_search={})
 
     config = LiveConnectConfig(
+        response_modalities=["AUDIO"],
         speech_config=SpeechConfig(
             voice_config=VoiceConfig(
                 prebuilt_voice_config=PrebuiltVoiceConfig(
