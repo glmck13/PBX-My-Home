@@ -82,6 +82,7 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
         return loop.run_in_executor(executor, func, *args)
 
     client = genai.Client(http_options={'api_version': 'v1beta'})
+    search_tool = genai.types.Tool(google_search={})
     
     config = LiveConnectConfig(
         response_modalities=["AUDIO"], # Fixes "Cannot extract voices" error
@@ -89,7 +90,8 @@ async def gemini_streamer(asterisk_reader, asterisk_writer):
             voice_config=VoiceConfig(
                 prebuilt_voice_config=PrebuiltVoiceConfig(voice_name='Puck')
             )
-        )
+        ),
+        tools = [search_tool]
     )
 
     async with client.aio.live.connect(config=config, model=GEMINI_MODEL) as live_session:
