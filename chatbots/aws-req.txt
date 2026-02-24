@@ -1,5 +1,0 @@
-rx
-smithy-aws-core
-pytz
-aws_sdk_bedrock_runtime
-httpx
